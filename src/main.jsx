@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./index.css";                       // <- load global styles
 import RootLayout from "./layout/RootLayout.jsx";
-import { routes, notFound } from "./routes/table.js";
+import { routes, notFound } from "./routes/table.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
