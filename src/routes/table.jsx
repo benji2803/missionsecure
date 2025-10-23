@@ -1,9 +1,10 @@
+// src/routes/table.jsx
 import { lazy } from "react";
 
-// Map labels → actual files you have today
-const WhoWeAre       = lazy(() => import("../TeamPage.jsx"));            // “Who We Are”
-const Resources      = lazy(() => import("../BeginnerGuidePage.jsx"));   // “Resources” (temp)
-const LatestCyberNews= lazy(() => import("../CyberNews.jsx"));           // “Latest Cyber News”
+// Map routes → actual files in src/pages
+const WhoWeAre        = lazy(() => import("../pages/TeamPage.jsx"));           // "Who We Are"
+const Resources       = lazy(() => import("../pages/BeginnerGuidePage.jsx"));  // "Resources" (for now)
+const LatestCyberNews = lazy(() => import("../pages/CyberNews.jsx"));          // "Latest Cyber News"
 
 export const routes = [
   { path: "/who-we-are", label: "Who We Are", element: <WhoWeAre /> },
