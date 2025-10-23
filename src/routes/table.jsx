@@ -1,10 +1,8 @@
-// src/routes/table.js
 import { lazy } from "react";
 
-// Match your real filenames in src/pages/
-const WhoWeAre = lazy(() => import("../pages/TeamPage.jsx"));
-const Resources = lazy(() => import("../pages/BeginnerGuidePage.jsx"));
-const LatestCyberNews = lazy(() => import("../pages/CyberNews.jsx"));
+const WhoWeAre = lazy(() => import("../pages/WhoWeAre.jsx"));
+const Resources = lazy(() => import("../pages/Resources.jsx"));
+const LatestCyberNews = lazy(() => import("../pages/CyberNews.jsx")); // make sure filename matches
 
 export const routes = [
   { path: "/who-we-are", label: "Who We Are", element: <WhoWeAre /> },
