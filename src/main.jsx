@@ -1,10 +1,11 @@
 // src/main.jsx
-import React, { StrictMode, Suspense } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import RootLayout from "./layout/RootLayout.jsx";     // from earlier message
-import { routes, notFound } from "./routes/table.js"; // your route table
+import "./index.css";                       // <- load global styles
+import RootLayout from "./layout/RootLayout.jsx";
+import { routes, notFound } from "./routes/table.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -12,9 +13,9 @@ createRoot(document.getElementById("root")).render(
       <RootLayout>
         <Suspense fallback={<div style={{ padding: 16 }}>Loading…</div>}>
           <Routes>
-            {/* Default: send "/" to Who We Are */}
+            {/* Default route */}
             <Route path="/" element={<Navigate to="/who-we-are" replace />} />
-            {routes.map(r => (
+            {routes.map((r) => (
               <Route key={r.path} path={r.path} element={r.element} />
             ))}
             <Route path={notFound.path} element={notFound.element} />

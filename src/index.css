@@ -11,81 +11,90 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* App tokens (dark defaults; light overrides are in App.css via :root[data-theme="light"]) */
+  --text: rgba(255,255,255,0.92);
+  --text-muted: rgba(255,255,255,0.65);
+  --muted: rgba(255,255,255,0.55);
+  --panel: #0f172a;
+  --bg-2: #111827;
+  --border: rgba(255,255,255,0.10);
+  --primary: #7c5cff;
+  --success-bg: rgba(16,185,129,0.08);
+  --success-border: rgba(16,185,129,0.25);
+  --success-text: #10b981;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+/* Base elements */
+a { font-weight: 500; color: #646cff; text-decoration: none; }
+a:hover { color: #535bf2; }
 
+html, body, #root { height: 100%; }
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: var(--text);
+  background: #0b1020;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-  html, body, #root { height: 100%; }
-#root {
-  min-height: 100dvh;        /* full viewport height */
-  display: grid;
-  place-items: center;        /* centers horizontally + vertically */
-  margin: 0;                  /* kill default margins */
-  padding: 2rem;
-}
-/* --- Mobile-friendly brand title --- */
-.topbar .brand { min-width: 0; }               /* allow flex children to shrink */
+/* Mobile-friendly brand title */
+.topbar .brand { min-width: 0; }
 .topbar .brand h2{
   margin: 0;
-  font-size: clamp(0.9rem, 3.8vw, 1.05rem);    /* scales down on small screens */
-  white-space: nowrap;                          /* single line */
-  overflow: hidden;                             /* allow ellipsis */
+  font-size: clamp(0.9rem, 3.8vw, 1.05rem);
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 58vw;                              /* prevent pushing the buttons */
+  max-width: 58vw;
 }
-
 @media (max-width: 420px){
   .topbar .brand h2{ max-width: 50vw; }
-  .topbar .brand .by{ display: none; }         /* hide “by Mission Secure” if super tight */
+  .topbar .brand .by{ display: none; }
+}
+
+/* Utilities */
+.page { width: 100%; }
+.wrap { width: 100%; max-width: 1100px; margin: 0 auto; }
+
+.link { background: transparent; border: 0; color: #8ab4ff; padding: 0; cursor: pointer; }
+.link:hover { text-decoration: underline; }
+
+.about-list { padding-left: 1.1rem; }
+.about-list li { margin: 0.35rem 0; }
+
+/* Modal shell */
+.modal {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  animation: fadeIn 0.25s ease-out;
+}
+.modal__card {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  max-width: 640px;
+  width: 92vw;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+}
+.modal__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Scrollbar helper */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Keyframes */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
 }

@@ -1,12 +1,17 @@
-/* ---------- Beginner Guide page ---------- */
-function BeginnerGuidePage({ onBack, theme }) {
+// src/pages/BeginnerGuidePage.jsx
+import { Link, useNavigate } from "react-router-dom";
+
+export default function BeginnerGuidePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="page">
       <div className="wrap">
         <div style={{ marginBottom: "2rem" }}>
-          <button className="btn btn--ghost" onClick={onBack}>
-            ← Back to Home
-          </button>
+          {/* Back to Who We Are page */}
+          <Link className="btn btn--ghost" to="/who-we-are">
+            ← Back to Who We Are
+          </Link>
         </div>
 
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
@@ -50,9 +55,9 @@ function BeginnerGuidePage({ onBack, theme }) {
           <h4>✅ Quick Wins (Start Here!)</h4>
           <div style={{ background: "var(--success-bg)", border: "1px solid var(--success-border)", borderRadius: "8px", padding: "1rem", margin: "1rem 0" }}>
             <h5 style={{ margin: "0 0 0.5rem 0", color: "var(--success-text)" }}>5-Minute Security Checkup</h5>
-            <ol style={{ margin: "0", paddingLeft: "1.2rem" }}>
+            <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
               <li>Turn on automatic updates for your phone/computer</li>
-              <li>Use a password manager (we recommend Bitwarden - it's free!)</li>
+              <li>Use a password manager (Bitwarden is a great free option)</li>
               <li>Enable 2-factor authentication on email and important accounts</li>
               <li>Check your privacy settings on social media</li>
               <li>Install antivirus if you don't have it</li>
@@ -63,18 +68,18 @@ function BeginnerGuidePage({ onBack, theme }) {
           <ul className="about-list">
             <li>
               <strong>Password Managers:</strong> Store all passwords securely
-              <br />• <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer">Bitwarden</a> (Free, excellent)
-              <br />• <a href="https://1password.com" target="_blank" rel="noopener noreferrer">1Password</a> (Paid, very user-friendly)
+              <br />• <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer">Bitwarden</a>
+              <br />• <a href="https://1password.com" target="_blank" rel="noopener noreferrer">1Password</a>
             </li>
             <li>
               <strong>Antivirus/Security:</strong> Protect against malware
               <br />• Windows Defender (built-in, free)
-              <br />• <a href="https://www.malwarebytes.com" target="_blank" rel="noopener noreferrer">Malwarebytes</a> (free version available)
+              <br />• <a href="https://www.malwarebytes.com" target="_blank" rel="noopener noreferrer">Malwarebytes</a>
             </li>
             <li>
               <strong>2-Factor Authentication Apps:</strong> Extra security layer
-              <br />• <a href="https://support.google.com/accounts/answer/1066447" target="_blank" rel="noopener noreferrer">Google Authenticator</a> (free)
-              <br />• <a href="https://authy.com" target="_blank" rel="noopener noreferrer">Authy</a> (free, syncs across devices)
+              <br />• <a href="https://support.google.com/accounts/answer/1066447" target="_blank" rel="noopener noreferrer">Google Authenticator</a>
+              <br />• <a href="https://authy.com" target="_blank" rel="noopener noreferrer">Authy</a>
             </li>
           </ul>
 
@@ -84,21 +89,14 @@ function BeginnerGuidePage({ onBack, theme }) {
             <li><strong>Keep everything updated:</strong> Software updates often fix security holes</li>
             <li><strong>Use unique passwords:</strong> One password = one account</li>
             <li><strong>Trust your gut:</strong> If something feels fishy, it probably is</li>
-            <li><strong>Backup important files:</strong> Save copies somewhere safe</li>
+            <li><strong>Back up important files:</strong> Save copies somewhere safe</li>
           </ul>
 
-          <h4>📚 Want to Learn More?</h4>
-          <ul className="about-list">
-            <li><a href="https://www.cisa.gov/cybersecurity-basics" target="_blank" rel="noopener noreferrer">CISA Cybersecurity Basics</a> - Government resource</li>
-            <li><a href="https://staysafeonline.org/stay-safe-online/securing-personal-information/passwords/" target="_blank" rel="noopener noreferrer">Stay Safe Online</a> - Password best practices</li>
-            <li><a href="https://www.knowbe4.com/phishing" target="_blank" rel="noopener noreferrer">KnowBe4 Phishing Guide</a> - Spot fake emails</li>
-          </ul>
-
-          <div style={{ 
-            marginTop: "3rem", 
-            padding: "2rem", 
-            background: "var(--panel)", 
-            borderRadius: "12px", 
+          <div style={{
+            marginTop: "3rem",
+            padding: "2rem",
+            background: "var(--panel)",
+            borderRadius: "12px",
             border: "1px solid var(--border)",
             textAlign: "center"
           }}>
@@ -106,7 +104,11 @@ function BeginnerGuidePage({ onBack, theme }) {
             <p style={{ margin: "0 0 1.5rem 0", fontSize: "1rem", color: "var(--text-muted)" }}>
               Take our cybersecurity assessment to see how well you're protected!
             </p>
-            <button className="btn btn--primary" onClick={onBack}>
+            {/* Navigate to a quiz route if/when you add it */}
+            <button
+              className="btn btn--primary"
+              onClick={() => navigate("/quiz")}
+            >
               Take Assessment
             </button>
           </div>
@@ -115,5 +117,3 @@ function BeginnerGuidePage({ onBack, theme }) {
     </div>
   );
 }
-
-export default BeginnerGuidePage;
