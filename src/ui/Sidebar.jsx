@@ -11,9 +11,7 @@ export default function Sidebar({ open, onClose }) {
   const pickInitialTheme = () => {
     const saved = localStorage.getItem("theme");
     if (saved === "light" || saved === "dark") return saved;
-    return window.matchMedia?.matchMedia?.("(prefers-color-scheme: light)")?.matches
-      ? "light"
-      : "dark";
+    return window.matchMedia?.("(prefers-color-scheme: light)")?.matches ? "light" : "dark";
   };
   const [theme, setTheme] = useState(pickInitialTheme);
 
@@ -38,7 +36,6 @@ export default function Sidebar({ open, onClose }) {
     }
   }, [open]);
 
-  // Build menu (skip routes with no label)
   const menu = routes.filter((r) => r.label);
 
   return (
@@ -48,9 +45,10 @@ export default function Sidebar({ open, onClose }) {
         className={`backdrop ${open ? "show" : ""}`}
         aria-hidden={!open}
         onClick={onClose}
+        onTouchStart={onClose}
       />
 
-      {/* Drawer (stop events so taps inside don’t bubble to backdrop) */}
+      {/* Drawer */}
       <nav
         id="app-sidebar"
         className={`sidebar ${open ? "open" : ""}`}
@@ -58,6 +56,7 @@ export default function Sidebar({ open, onClose }) {
         aria-label="Primary"
         ref={panelRef}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
       >
         <div className="sidebar-header">
           <span className="sidebar-title">Menu</span>
@@ -72,7 +71,8 @@ export default function Sidebar({ open, onClose }) {
               <NavLink
                 to={path}
                 className={({ isActive }) => "navlink" + (isActive ? " active" : "")}
-                onClick={onClose} // close after navigating
+                onClick={onClose}
+                onTouchStart={onClose}
               >
                 {label}
               </NavLink>
