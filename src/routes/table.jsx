@@ -7,6 +7,7 @@ const BeginnerGuidePage = lazy(() => import("../pages/BeginnerGuidePage.jsx")); 
 const CyberNews = lazy(() => import("../pages/CyberNews.jsx"));              // Latest Cyber News
 const ContactUs = lazy(() => import("../pages/ContactUs.jsx"));
 const Quiz = lazy(() => import("../pages/Quiz.jsx"));
+const Results = lazy(() => import("../pages/Results.jsx"));
 
 export const routes = [
   { path: "/", label: "Home", element: <Home /> },
@@ -15,6 +16,7 @@ export const routes = [
   { path: "/news", label: "Latest Cyber News", element: <CyberNews /> },
   { path: "/contact", label: "Contact Us", element: <ContactUs /> },
      { path: "/quiz",     element: <Quiz /> }, // remove `label` to hide from sidebar
+     { path: "/results",                               element: <Results /> }, // no label = hidden
 
 ];
 

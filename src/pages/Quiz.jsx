@@ -1,5 +1,5 @@
 // src/pages/Quiz.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 /* --------------------------------------------
@@ -124,8 +124,11 @@ export default function QuizPage() {
         setIdx(idx + 1);
         setTransitioning(false);
       } else {
-        // hand off answers to results route
-        navigate("/results", { state: { answers: next } });
+        // compute score and navigate with BOTH query params and state
+        const score = Object.values(next).reduce((sum, o) => sum + (Number(o?.weight) || 0), 0);
+        navigate(`/results?score=${score}&total=${total}`, {
+          state: { answers: next, score, total }
+        });
       }
     }, 140);
   };
@@ -172,7 +175,6 @@ export default function QuizPage() {
                   gap: 12
                 }}
               >
-                {/* lil’ emoji dot that reflects quality tag */}
                 <span aria-hidden="true" style={{ fontSize: 18, lineHeight: 1 }}>
                   {opt.tag === "best" ? "🟢" : opt.tag === "iffy" ? "🟠" : "🔴"}
                 </span>
