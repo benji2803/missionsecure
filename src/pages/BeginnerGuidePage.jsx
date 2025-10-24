@@ -1,119 +1,136 @@
 // src/pages/BeginnerGuidePage.jsx
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function BeginnerGuidePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="page">
-      <div className="wrap">
-        <div style={{ marginBottom: "2rem" }}>
-          {/* Back to Who We Are page */}
-          <Link className="btn btn--ghost" to="/who-we-are">
-            ← Back to Who We Are
-          </Link>
-        </div>
-
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h1 style={{ fontSize: "clamp(2rem, 1.5rem + 2.5vw, 3.5rem)", margin: "0 0 1rem 0" }}>
-            🎯 Cybersecurity for Beginners
+    <main className="page page-top">
+      <section className="container" style={{ paddingTop: 0 }}>
+        {/* Intro */}
+        <header className="text-center" style={{ marginBottom: "1.25rem" }}>
+          <h1 className="home-title" style={{ margin: 0 }}>
+            🎯 <span>Cybersecurity</span> for Beginners
           </h1>
-          <p style={{ fontSize: "1.1rem", color: "var(--text-muted)", maxWidth: "600px", margin: "0 auto" }}>
-            Welcome to cybersecurity! This guide covers the essential basics to help you protect yourself and your organization online. No technical background required! 🛡️
+          <p className="muted" style={{ maxWidth: 720, margin: "8px auto 0" }}>
+            The essentials to keep you and your org safe online — no deep tech required. 🛡️
           </p>
-        </div>
+        </header>
 
-        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <h4>🚨 What is Cybersecurity?</h4>
-          <p>Cybersecurity is like having locks, alarms, and security guards for your digital life. It protects your:</p>
-          <ul className="about-list">
-            <li><strong>Personal Information:</strong> Photos, emails, bank details, passwords</li>
-            <li><strong>Business Data:</strong> Customer information, financial records, company secrets</li>
-            <li><strong>Devices:</strong> Computers, phones, tablets from viruses and hackers</li>
-          </ul>
-
-          <h4>🎯 Common Threats (What to Watch Out For)</h4>
-          <ul className="about-list">
-            <li>
-              <strong>Phishing Emails:</strong> Fake emails that look real, asking for passwords or personal info
-              <br /><em>Red flags: Urgent language, suspicious links, asking for passwords</em>
-            </li>
-            <li>
-              <strong>Malware/Viruses:</strong> Bad software that can steal data or damage your device
-              <br /><em>Prevention: Don't download from untrusted sources, keep antivirus updated</em>
-            </li>
-            <li>
-              <strong>Weak Passwords:</strong> Easy-to-guess passwords like "password123"
-              <br /><em>Solution: Use long, unique passwords with a password manager</em>
-            </li>
-            <li>
-              <strong>Public Wi-Fi Risks:</strong> Hackers can see what you do on unsecured networks
-              <br /><em>Tip: Avoid banking/shopping on public Wi-Fi</em>
-            </li>
-          </ul>
-
-          <h4>✅ Quick Wins (Start Here!)</h4>
-          <div style={{ background: "var(--success-bg)", border: "1px solid var(--success-border)", borderRadius: "8px", padding: "1rem", margin: "1rem 0" }}>
-            <h5 style={{ margin: "0 0 0.5rem 0", color: "var(--success-text)" }}>5-Minute Security Checkup</h5>
-            <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
-              <li>Turn on automatic updates for your phone/computer</li>
-              <li>Use a password manager (Bitwarden is a great free option)</li>
-              <li>Enable 2-factor authentication on email and important accounts</li>
-              <li>Check your privacy settings on social media</li>
-              <li>Install antivirus if you don't have it</li>
-            </ol>
-          </div>
-
-          <h4>🛠️ Essential Tools (Free & Easy)</h4>
-          <ul className="about-list">
-            <li>
-              <strong>Password Managers:</strong> Store all passwords securely
-              <br />• <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer">Bitwarden</a>
-              <br />• <a href="https://1password.com" target="_blank" rel="noopener noreferrer">1Password</a>
-            </li>
-            <li>
-              <strong>Antivirus/Security:</strong> Protect against malware
-              <br />• Windows Defender (built-in, free)
-              <br />• <a href="https://www.malwarebytes.com" target="_blank" rel="noopener noreferrer">Malwarebytes</a>
-            </li>
-            <li>
-              <strong>2-Factor Authentication Apps:</strong> Extra security layer
-              <br />• <a href="https://support.google.com/accounts/answer/1066447" target="_blank" rel="noopener noreferrer">Google Authenticator</a>
-              <br />• <a href="https://authy.com" target="_blank" rel="noopener noreferrer">Authy</a>
-            </li>
-          </ul>
-
-          <h4>🧠 Remember These Golden Rules</h4>
-          <ul className="about-list">
-            <li><strong>Think before you click:</strong> Suspicious emails, links, or downloads</li>
-            <li><strong>Keep everything updated:</strong> Software updates often fix security holes</li>
-            <li><strong>Use unique passwords:</strong> One password = one account</li>
-            <li><strong>Trust your gut:</strong> If something feels fishy, it probably is</li>
-            <li><strong>Back up important files:</strong> Save copies somewhere safe</li>
-          </ul>
-
-          <div style={{
-            marginTop: "3rem",
-            padding: "2rem",
-            background: "var(--panel)",
-            borderRadius: "12px",
-            border: "1px solid var(--border)",
-            textAlign: "center"
-          }}>
-            <h3 style={{ margin: "0 0 0.5rem 0", color: "var(--primary)" }}>Ready to test your knowledge?</h3>
-            <p style={{ margin: "0 0 1.5rem 0", fontSize: "1rem", color: "var(--text-muted)" }}>
-              Take our cybersecurity assessment to see how well you're protected!
+        {/* Content */}
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <section style={{ marginBottom: "1.5rem" }}>
+            <h3 style={{ margin: "0 0 .5rem 0" }}>🚨 What is Cybersecurity?</h3>
+            <p className="muted" style={{ marginTop: 0 }}>
+              Think locks, alarms, and guards for your digital life. It protects:
             </p>
-            {/* Navigate to a quiz route if/when you add it */}
-            <button
-              className="btn btn--primary"
-              onClick={() => navigate("/quiz")}
+            <ul className="about-list">
+              <li><strong>Personal Info:</strong> photos, emails, bank details, passwords</li>
+              <li><strong>Business Data:</strong> customer info, financial records, IP</li>
+              <li><strong>Devices:</strong> computers, phones, tablets from malware & hackers</li>
+            </ul>
+          </section>
+
+          <section style={{ marginBottom: "1.5rem" }}>
+            <h3 style={{ margin: "0 0 .5rem 0" }}>🎯 Common Threats</h3>
+            <ul className="about-list">
+              <li>
+                <strong>Phishing emails:</strong> look legit, steal creds
+                <br /><em className="muted">Watch for: urgency, weird links, asking for passwords</em>
+              </li>
+              <li>
+                <strong>Malware/viruses:</strong> steal data or damage devices
+                <br /><em className="muted">Avoid shady downloads; keep AV updated</em>
+              </li>
+              <li>
+                <strong>Weak passwords:</strong> “password123”
+                <br /><em className="muted">Use long, unique passphrases in a manager</em>
+              </li>
+              <li>
+                <strong>Public Wi-Fi risks:</strong> snooping on open networks
+                <br /><em className="muted">Skip banking/shopping on public Wi-Fi</em>
+              </li>
+            </ul>
+          </section>
+
+          <section style={{ marginBottom: "1.5rem" }}>
+            <h3 style={{ margin: "0 0 .75rem 0" }}>✅ Quick Wins</h3>
+            <div
+              style={{
+                background: "var(--success-bg)",
+                border: "1px solid var(--success-border)",
+                borderRadius: "12px",
+                padding: "1rem 1.25rem",
+              }}
             >
+              <h4 style={{ margin: "0 0 .5rem 0", color: "var(--success-text)" }}>
+                5-Minute Security Checkup
+              </h4>
+              <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
+                <li>Turn on automatic updates (phone & computer)</li>
+                <li>Use a password manager (Bitwarden is a great free option)</li>
+                <li>Enable 2-factor auth on email & critical accounts</li>
+                <li>Review social media privacy settings</li>
+                <li>Confirm antivirus is installed/active</li>
+              </ol>
+            </div>
+          </section>
+
+          <section style={{ marginBottom: "1.5rem" }}>
+            <h3 style={{ margin: "0 0 .5rem 0" }}>🛠️ Essential Tools</h3>
+            <ul className="about-list">
+              <li>
+                <strong>Password managers:</strong>
+                <br />• <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer">Bitwarden</a>
+                <br />• <a href="https://1password.com" target="_blank" rel="noopener noreferrer">1Password</a>
+              </li>
+              <li>
+                <strong>Antivirus:</strong>
+                <br />• Windows Defender (built-in) • <a href="https://www.malwarebytes.com" target="_blank" rel="noopener noreferrer">Malwarebytes</a>
+              </li>
+              <li>
+                <strong>2FA apps:</strong>
+                <br />• <a href="https://support.google.com/accounts/answer/1066447" target="_blank" rel="noopener noreferrer">Google Authenticator</a>
+                <br />• <a href="https://authy.com" target="_blank" rel="noopener noreferrer">Authy</a>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 style={{ margin: "0 0 .5rem 0" }}>🧠 Golden Rules</h3>
+            <ul className="about-list">
+              <li><strong>Think before you click</strong> links/attachments</li>
+              <li><strong>Update everything</strong> to patch holes</li>
+              <li><strong>Unique passwords</strong> for every account</li>
+              <li><strong>Trust your gut</strong> if it feels off</li>
+              <li><strong>Back up</strong> important files</li>
+            </ul>
+          </section>
+
+          {/* CTA */}
+          <aside
+            style={{
+              marginTop: "1.5rem",
+              padding: "1.5rem",
+              background: "var(--panel)",
+              borderRadius: "12px",
+              border: "1px solid var(--border-color)",
+              textAlign: "center",
+              boxShadow: "0 8px 22px var(--glow-soft)",
+            }}
+          >
+            <h3 style={{ margin: "0 0 .5rem 0", color: "var(--primary)" }}>
+              Ready to test your knowledge?
+            </h3>
+            <p className="muted" style={{ margin: "0 0 1rem 0" }}>
+              Take our assessment to see how well you’re protected.
+            </p>
+            <button className="btn btn-primary" onClick={() => navigate("/quiz")}>
               Take Assessment
             </button>
-          </div>
+          </aside>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

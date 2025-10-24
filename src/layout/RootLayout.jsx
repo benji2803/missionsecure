@@ -1,17 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Sidebar from "../ui/Sidebar.jsx";
 import "./layout.css";
 
 export default function RootLayout({ children }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
+  const { pathname } = useLocation();
 
+  // Close the sidebar when Esc is pressed
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // Persist theme on first load (default to saved theme or dark)
+  useEffect(() => {
+    const saved = localStorage.getItem("theme") || "dark";
+    document.documentElement.dataset.theme = saved;
+  }, []);
 
   return (
     <div className="app-shell">
@@ -22,19 +31,34 @@ export default function RootLayout({ children }) {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="app-sidebar"
-          onClick={() => setOpen(v => !v)}
+          onClick={() => setOpen((v) => !v)}
         >
-          <svg className={`hamburger ${open ? "is-open" : ""}`} viewBox="0 0 24 24" width="28" height="28" role="img" aria-hidden="true">
-            <path className="line top" d="M4 7h16" strokeWidth="2" stroke="currentColor" />
-            <path className="line mid" d="M4 12h16" strokeWidth="2" stroke="currentColor" />
-            <path className="line bot" d="M4 17h16" strokeWidth="2" stroke="currentColor" />
-          </svg>
+          {/* Vite logo as the toggle icon */}
+          <img
+            src="/vite.svg"
+            alt=""
+            width="26"
+            height="26"
+            className={`logo-toggle ${open ? "is-open" : ""}`}
+            draggable="false"
+          />
         </button>
+
         <h1 className="brand">Mission Secure</h1>
       </header>
 
       <Sidebar open={open} onClose={() => setOpen(false)} />
-      <main className={`page ${open ? "no-scroll" : ""}`}>{children}</main>
+
+      {/* When sidebar is open on desktop, push content; also remove top padding on Home */}
+      <main
+        className={[
+          "page",
+          open ? "has-sidebar" : "",
+          pathname === "/" ? "home-route" : "",
+        ].join(" ").trim()}
+      >
+        {children}
+      </main>
     </div>
   );
 }

@@ -1,22 +1,453 @@
-:root {
-  --topbar-h: 56px;
-  --sidebar-w: 280px;
+/* ============================================
+   LAYOUT.CSS — Mission Secure (commented)
+   ============================================ */
+
+/* --------------------------------------------
+   1) THEME TOKENS (Dark default)
+   -------------------------------------------- */
+:root{
+  /* Layout */
+  --topbar-h:56px;
+  --sidebar-w:280px;
+
+  /* Dark palette (defaults) */
+  --bg:#0b1020;
+  --surface:#0f172a;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:rgba(255,255,255,.08);
+  --brand:#60a5fa;
+  --brand-2:#7dd3fc;
+  --ring:rgba(96,165,250,.45);
+  --radius:12px;
+
+  /* Spacing scale */
+  --space-1:6px;
+  --space-2:10px;
+  --space-3:16px;
+  --space-4:22px;
+  --space-5:32px;
+
+  /* Derived / bridge tokens */
+  --panel: color-mix(in oklab, white 6%, transparent); /* glassy card on dark */
+  --border-color: var(--border);
+  --text-color: var(--text);
+
+  /* Accents (sidebar/nav) */
+  --primary:#7c5cff;
+  --primary-2:#6a8dff;
+  --accent-bg: color-mix(in oklab, var(--primary) 15%, transparent);
+  --accent-border: color-mix(in oklab, var(--primary) 30%, transparent);
+  --accent-text: var(--primary-2);
+
+  /* Component themes */
+  --topbar-bg: linear-gradient(180deg,#0b1020,#0a0f1d);
+  --input-bg: rgba(255,255,255,.05);
+  --btn-panel: rgba(255,255,255,.04);
+  --btn-panel-hover: rgba(255,255,255,.08);
+  --btn-primary-bg: linear-gradient(180deg,#223153,#1a2745);
+  --btn-primary-bg-hover: linear-gradient(180deg,#273960,#1d2d51);
+  --btn-primary-border: rgba(96,165,250,.35);
+  --btn-primary-border-hover: rgba(125,211,252,.45);
+
+  /* Purple glow tokens */
+  --glow-main: rgba(124, 92, 255, .55);
+  --glow-soft: rgba(124, 92, 255, .30);
+
+  /* Backdrop for sidebar (used in Sidebar.css too) */
   --backdrop: rgba(0,0,0,.45);
-  --surface: #0f172a;
-  --text: #e5e7eb;
-  --brand: #60a5fa;
 }
-*{box-sizing:border-box}
-html,body,#root{height:100%}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:#0b1020;color:var(--text)}
-.app-shell{min-height:100%}
-.topbar{position:sticky;top:0;z-index:40;height:var(--topbar-h);display:flex;align-items:center;gap:12px;padding:0 12px;background:linear-gradient(180deg,#0b1020,#0a0f1d);border-bottom:1px solid rgba(255,255,255,.06)}
-.brand{font-size:1.05rem;font-weight:600;color:var(--brand);margin:0}
-.icon-btn{background:transparent;border:0;color:var(--text);width:40px;height:40px;display:grid;place-items:center;border-radius:10px;cursor:pointer}
-.icon-btn:hover{background:rgba(255,255,255,.06)}
-.hamburger .line{transition:transform .24s ease,opacity .2s ease;stroke-linecap:round}
-.hamburger.is-open .top{transform:translateY(5px) rotate(45deg)}
-.hamburger.is-open .mid{opacity:0}
-.hamburger.is-open .bot{transform:translateY(-5px) rotate(-45deg)}
-.page{padding:16px}
-.page.no-scroll{overflow:hidden}
+
+/* --------------------------------------------
+   2) THEME OVERRIDES — Light mode
+   -------------------------------------------- */
+:root[data-theme="light"]{
+  --bg:#f6f7fb;
+  --surface:#ffffff;
+  --text:#17181c;
+  --muted:#4b4f58;
+  --border:#0000001a;
+
+  --panel:#ffffff;
+  --border-color: var(--border);
+  --text-color: var(--text);
+
+  --primary:#7c5cff;
+  --primary-2:#6a8dff;
+  --accent-bg: color-mix(in oklab, var(--primary) 10%, white 85%);
+  --accent-border: color-mix(in oklab, var(--primary) 20%, white 75%);
+  --accent-text: var(--primary);
+
+  --topbar-bg: linear-gradient(180deg,#eef2ff,#e7ecff);
+  --input-bg:#ffffff;
+  --btn-panel:#ffffff;
+  --btn-panel-hover:#f3f6ff;
+  --btn-primary-bg: linear-gradient(180deg,#7c5cff,#6a8dff);
+  --btn-primary-bg-hover: linear-gradient(180deg,#866bff,#7796ff);
+  --btn-primary-border: rgba(124,92,255,.35);
+  --btn-primary-border-hover: rgba(124,92,255,.5);
+
+  --glow-main: rgba(124, 92, 255, .45);
+  --glow-soft: rgba(124, 92, 255, .25);
+}
+
+/* --------------------------------------------
+   3) GLOBAL BASE / RESET
+   -------------------------------------------- */
+*{ box-sizing:border-box }
+html,body,#root{ height:100% }
+body{
+  margin:0;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  background: var(--bg);
+  color: var(--text-color);
+}
+.app-shell{ min-height:100% }
+
+/* --------------------------------------------
+   3.5) APP-WIDE BACKGROUND GLOW (animated, bold)
+   -------------------------------------------- */
+.app-shell{
+  min-height:100%;
+  position: relative;                 /* stacking context for glow */
+  --glow-speed: 18s;                  /* drift speed */
+  --glow-pulse: 6s;                   /* pulse speed */
+}
+
+.app-shell::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;                         /* behind UI */
+
+  /* Two glow layers; we’ll animate both size and position */
+  background:
+    radial-gradient(60% 60% at center,
+      color-mix(in oklab, var(--brand) 26%, transparent) 0%,
+      transparent 70%) no-repeat,
+    radial-gradient(70% 70% at center,
+      color-mix(in oklab, var(--brand-2) 26%, transparent) 0%,
+      transparent 70%) no-repeat;
+
+  /* Starting size/position */
+  background-size: 42vw 42vw, 48vw 48vw;
+  background-position: 18% 12%, 80% 88%;
+
+  opacity: .95;
+  will-change: background-position, background-size, opacity, filter;
+  animation:
+    glow-drift var(--glow-speed) ease-in-out infinite alternate,
+    glow-size  calc(var(--glow-speed) * 99) ease-in-out infinite alternate,
+    glow-pulse var(--glow-pulse) ease-in-out infinite;
+}
+
+/* Keep UI above the glow */
+.topbar, .sidebar, .page{ position: relative; z-index: 1; }
+
+/* Larger drift so it’s obvious */
+@keyframes glow-drift{
+  0%   { background-position: 12% 10%, 84% 90%; }
+  50%  { background-position: 26% 18%, 74% 82%; }
+  100% { background-position: 10% 24%, 88% 76%; }
+}
+
+/* Breathe the blob sizes */
+@keyframes glow-size{
+  0%   { background-size: 38vw 38vw, 44vw 44vw; }
+  50%  { background-size: 52vw 52vw, 58vw 58vw; }
+  100% { background-size: 46vw 46vw, 50vw 50vw; }
+}
+
+/* Soft opacity pulse */
+@keyframes glow-pulse{
+  0%,100% { opacity: .85; filter: saturate(1); }
+  50%     { opacity: 1;    filter: saturate(1.08); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .app-shell::before{ animation: none; }
+}
+
+/* --------------------------------------------
+   4) TOP BAR
+   -------------------------------------------- */
+.topbar{
+  position: sticky; top:0; z-index:40;
+  height: var(--topbar-h);
+  display:flex; align-items:center; gap:12px;
+  padding: 0 var(--space-3);
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+.brand{
+  font-size:1.05rem;
+  font-weight:650;
+  color: var(--brand);
+  margin:0;
+}
+
+/* Icon button (vite logo trigger) */
+.icon-btn{
+  background: transparent;
+  border:0;
+  color: var(--text-color);
+  width:40px; height:40px;
+  display:grid; place-items:center;
+  border-radius:10px;
+  cursor:pointer;
+  outline:none;
+}
+.icon-btn:hover{ background: color-mix(in oklab, var(--text-color) 6%, transparent) }
+.icon-btn:focus-visible{ box-shadow:0 0 0 3px var(--ring) }
+.logo-toggle{ transition: transform .22s ease }
+.logo-toggle.is-open{ transform: rotate(180deg) scale(1.02) }
+
+/* --------------------------------------------
+   5) PAGE LAYOUT — base + helpers
+   -------------------------------------------- */
+
+/* Base page: fills the viewport minus topbar so normal screens look tidy */
+.page{
+  padding: var(--space-4) var(--space-3);
+  min-height: calc(100vh - var(--topbar-h));
+}
+
+/* Mobile address bar safe */
+@supports (height: 100svh){
+  .page{ min-height: calc(100svh - var(--topbar-h)); }
+}
+
+.page.no-scroll{ overflow:hidden }
+
+/* Push content only when sidebar is open (desktop) */
+@media (min-width: 1024px){
+  .page.has-sidebar{ margin-left: var(--sidebar-w) }
+}
+
+/* Home route: hero controls its own spacing */
+.home-route{
+  padding: 0;
+  overflow: hidden;
+}
+
+/* --------------------------------------------
+   5) PAGE LAYOUT — base + helpers (FINAL)
+   -------------------------------------------- */
+
+/* Base page: top-aligned under the topbar. No min-height here. */
+.page{
+  padding: var(--space-4) var(--space-3);
+  margin: 0;
+}
+
+/* Non-home pages that must start immediately under the topbar */
+.page.page-top{
+  /* absolutely no vertical centering */
+  min-height: auto;                 /* kill the old full-height behavior */
+  padding-top: var(--space-4);      /* small breathing room under topbar */
+  overflow: visible;
+}
+
+/* Make sure first child can’t add phantom gap */
+.page.page-top > *:first-child{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Keep content horizontally centered when you use .container */
+.page > .container,
+.page.page-top > .container{
+  margin-inline: auto;
+  max-width: 980px;
+}
+
+/* Home route: the ONLY page that should fill the viewport */
+.home-route{
+  padding: 0;                        /* hero controls its own spacing */
+  min-height: calc(100vh - var(--topbar-h));
+}
+@supports (height: 100svh){
+  .home-route{ min-height: calc(100svh - var(--topbar-h)); }
+}
+
+/* Optional: prevent any scroll-jiggle on the home hero only */
+.home-route.page{ overflow: hidden; }
+
+/* Desktop: push content only when the sidebar is actually open */
+@media (min-width: 1024px){
+  .page.has-sidebar{ margin-left: var(--sidebar-w); }
+}
+
+/* --------------------------------------------
+   6) HOME LANDING (centered hero)
+   -------------------------------------------- */
+.home{
+  height: 100%;               /* fill the whole main area */
+  display: grid;              /* perfect center */
+  place-items: center;
+  text-align: center;
+  padding: var(--space-5) var(--space-3);
+}
+.home-content{
+  max-width: 700px;
+  margin: 0 auto;
+  animation: fadeIn .8s ease;
+}
+.home-content > *:last-child{ margin-bottom: 0 }
+.home-title{
+  font-size: clamp(1.8rem, 1rem + 3vw, 2.8rem);
+  font-weight: 800;
+  margin-bottom: var(--space-2);
+}
+.home-title span{ color: var(--brand) }
+.home-subtitle{
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--brand-2);
+  margin-bottom: var(--space-2);
+}
+.home-text{ margin-bottom: var(--space-4) }
+.home-actions{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap }
+.home-logo{
+  width: clamp(56px, 9vw, 84px);
+  height: auto;
+  margin-bottom: var(--space-3);
+  filter: drop-shadow(0 0 10px color-mix(in oklab, var(--brand) 50%, transparent));
+}
+
+/* --------------------------------------------
+   7) TYPE
+   -------------------------------------------- */
+h1,h2,h3{ margin:0 0 var(--space-2) }
+h2{ font-size:1.4rem; letter-spacing:.2px }
+p{ margin:.35rem 0 1rem; color: var(--text-color) }
+.muted{ color: var(--muted) }
+
+/* --------------------------------------------
+   8) BUTTONS (purple glow)
+   -------------------------------------------- */
+.btn{
+  --p: var(--space-2) var(--space-3);
+  display:inline-flex; align-items:center; gap:8px;
+  padding: var(--p);
+  border-radius: var(--radius);
+  border:1px solid var(--border-color);
+  text-decoration:none;
+  color: var(--text-color);
+  font-weight:600;
+  cursor:pointer;
+  background: var(--btn-panel);
+  transition: transform .06s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.btn:hover{ background: var(--btn-panel-hover) }
+.btn:active{ transform: translateY(1px) }
+.btn:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--ring) }
+
+/* Primary + glow */
+.btn-primary{
+  position: relative;
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-border);
+  color:#fff;
+  box-shadow:
+    0 8px 22px var(--glow-soft),
+    inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.btn-primary:hover{
+  background: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-border-hover);
+  box-shadow:
+    0 10px 28px var(--glow-main),
+    0 0 0 2px rgba(124,92,255,.15),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+  filter: brightness(1.04);
+}
+.btn-primary:focus-visible{
+  box-shadow:
+    0 10px 28px var(--glow-main),
+    0 0 0 3px var(--ring),
+    inset 0 0 0 1px rgba(255,255,255,.1);
+}
+
+/* Ghost + optional glow */
+.btn-ghost{ background: transparent }
+.btn-ghost.glow{
+  border-color: color-mix(in oklab, var(--primary) 55%, transparent);
+  box-shadow: 0 6px 18px var(--glow-soft);
+}
+.btn-ghost.glow:hover{
+  box-shadow: 0 10px 26px var(--glow-main);
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+}
+
+/* Button rows */
+.actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top: var(--space-3) }
+
+/* --------------------------------------------
+   9) FORMS
+   -------------------------------------------- */
+input,textarea{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+label>span{ color: var(--muted); font-size:.95rem }
+
+/* --------------------------------------------
+   10) QUIZ OPTIONS
+   -------------------------------------------- */
+.options{ display:grid; gap:10px }
+.option{
+  text-align:left;
+  border:1px solid var(--border-color);
+  background: var(--panel);
+  color: var(--text-color);
+  border-radius:12px;
+  padding:.9rem 1rem;
+  cursor:pointer;
+  transition: border-color .15s ease, background .15s ease, transform .12s ease, box-shadow .15s ease;
+}
+.option:hover{
+  background: color-mix(in oklab, var(--text-color) 6%, transparent);
+  border-color: color-mix(in oklab, var(--text-color) 18%, transparent);
+  transform: translateY(-1px);
+}
+.option:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--ring) }
+.option:active{ transform: translateY(0) }
+.option[disabled]{ opacity:.6; cursor:not-allowed; transform:none }
+
+.quiz-head{ display:flex; justify-content:space-between; align-items:center; margin:.5rem 0 1rem }
+.progress{ color: var(--muted) }
+.q{ margin:.25rem 0 1rem }
+
+/* --------------------------------------------
+   11) UTILITIES
+   -------------------------------------------- */
+.text-center{ text-align:center }
+.mt-1{ margin-top: var(--space-1) }
+.mt-2{ margin-top: var(--space-2) }
+.mt-3{ margin-top: var(--space-3) }
+.mt-4{ margin-top: var(--space-4) }
+.mb-0{ margin-bottom:0 }
+
+/* --------------------------------------------
+   12) ACCESSIBILITY & MOTION
+   -------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  .logo-toggle, .option, .btn{ transition: none }
+}
+@media (forced-colors: active){
+  .btn:focus-visible, .option:focus-visible{ outline: 2px solid Highlight; box-shadow: none }
+}
+
+/* --------------------------------------------
+   13) KEYFRAMES
+   -------------------------------------------- */
+@keyframes fadeIn{
+  from { opacity:0; transform: translateY(15px) }
+  to   { opacity:1; transform: translateY(0) }
+}

@@ -14,7 +14,7 @@ export const routes = [
   { path: "/resources", label: "Resources", element: <BeginnerGuidePage /> },
   { path: "/news", label: "Latest Cyber News", element: <CyberNews /> },
   { path: "/contact", label: "Contact Us", element: <ContactUs /> },
-  { path: "/quiz", label: "Take Assessment", element: <Quiz /> },
+
 ];
 
 export const notFound = {

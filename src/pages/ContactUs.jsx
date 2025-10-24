@@ -1,42 +1,28 @@
 export default function ContactUs() {
   return (
-    <section style={{ padding: 16, maxWidth: 720 }}>
-      <h2 style={{ marginTop: 0 }}>Contact Us</h2>
+    <section className="container" style={{ maxWidth: 760 }}>
+      <h2>Contact Us</h2>
+      <p className="muted">Questions or feedback? Send us a message.</p>
+
       <form
         onSubmit={(e) => { e.preventDefault(); alert("Thanks! We received your message."); }}
-        style={{ display: "grid", gap: 12 }}
+        style={{ display: "grid", gap: 12, marginTop: 8 }}
       >
         <label style={{ display: "grid", gap: 6 }}>
           <span>Name</span>
-          <input required name="name" style={inputStyle} />
+          <input required name="name" />
         </label>
         <label style={{ display: "grid", gap: 6 }}>
           <span>Email</span>
-          <input required type="email" name="email" style={inputStyle} />
+          <input required type="email" name="email" />
         </label>
         <label style={{ display: "grid", gap: 6 }}>
           <span>Message</span>
-          <textarea required name="message" rows={5} style={{ ...inputStyle, resize: "vertical" }} />
+          <textarea required name="message" rows={5} style={{ resize: "vertical" }} />
         </label>
-        <button type="submit" style={btnStyle}>Send</button>
+
+        <button type="submit" className="btn btn-primary">Send</button>
       </form>
     </section>
   );
 }
-const inputStyle = {
-  padding: "10px 12px",
-  borderRadius: 10,
-  border: "1px solid rgba(255,255,255,.15)",
-  background: "rgba(255,255,255,.05)",
-  color: "white"
-};
-const btnStyle = {
-  padding: "10px 14px",
-  borderRadius: 10,
-  border: "1px solid rgba(255,255,255,.15)",
-  background: "linear-gradient(180deg,#1f2a44,#18233a)",
-  color: "white",
-  fontWeight: 600,
-  cursor: "pointer",
-  width: "fit-content"
-};
