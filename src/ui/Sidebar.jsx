@@ -7,11 +7,11 @@ import "./Sidebar.css";
 export default function Sidebar({ open, onClose }) {
   const panelRef = useRef(null);
 
-  // init theme from storage or OS, then apply to <html data-theme="">
+  // --- Theme (persist to localStorage) ---
   const pickInitialTheme = () => {
     const saved = localStorage.getItem("theme");
     if (saved === "light" || saved === "dark") return saved;
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches
+    return window.matchMedia?.matchMedia?.("(prefers-color-scheme: light)")?.matches
       ? "light"
       : "dark";
   };
@@ -22,18 +22,15 @@ export default function Sidebar({ open, onClose }) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // close on outside click
+  // --- Esc closes ---
   useEffect(() => {
     if (!open) return;
-    const onDocClick = (e) => {
-      if (!panelRef.current) return;
-      if (!panelRef.current.contains(e.target)) onClose();
-    };
-    document.addEventListener("mousedown", onDocClick);
-    return () => document.removeEventListener("mousedown", onDocClick);
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // focus first link/button on open
+  // --- Focus a link on open (a11y) ---
   useEffect(() => {
     if (open && panelRef.current) {
       const focusable = panelRef.current.querySelector("a,button,input,label");
@@ -41,22 +38,26 @@ export default function Sidebar({ open, onClose }) {
     }
   }, [open]);
 
+  // Build menu (skip routes with no label)
   const menu = routes.filter((r) => r.label);
 
   return (
     <>
+      {/* Backdrop (tap/click to close) */}
       <div
         className={`backdrop ${open ? "show" : ""}`}
         aria-hidden={!open}
         onClick={onClose}
       />
 
+      {/* Drawer (stop events so taps inside don’t bubble to backdrop) */}
       <nav
         id="app-sidebar"
         className={`sidebar ${open ? "open" : ""}`}
         aria-hidden={!open}
         aria-label="Primary"
         ref={panelRef}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="sidebar-header">
           <span className="sidebar-title">Menu</span>
@@ -71,7 +72,7 @@ export default function Sidebar({ open, onClose }) {
               <NavLink
                 to={path}
                 className={({ isActive }) => "navlink" + (isActive ? " active" : "")}
-                onClick={onClose}
+                onClick={onClose} // close after navigating
               >
                 {label}
               </NavLink>
@@ -79,10 +80,9 @@ export default function Sidebar({ open, onClose }) {
           ))}
         </ul>
 
-        {/* Cute sun/moon slider */}
+        {/* Theme slider */}
         <div className="sidebar-theme">
           <div className="theme-toggle" aria-label="Theme toggle">
-            {/* IMPORTANT: input immediately before label for :checked + label selector */}
             <input
               id="sidebarThemeSwitch"
               type="checkbox"

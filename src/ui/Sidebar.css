@@ -4,7 +4,19 @@
 
 /* Fallback tokens if not defined globally */
 :root{
+  --topbar-h: 56px;
+  --sidebar-w: 280px;
   --backdrop: rgba(0,0,0,.45);
+  --panel: #0f172a;
+  --border: rgba(255,255,255,.10);
+  --text: #e5e7eb;
+  --primary: #7c5cff;
+  --accent-bg: rgba(124,92,255,.12);
+  --accent-border: rgba(124,92,255,.45);
+  --accent-text: #fff;
+  --card-bg: var(--panel);
+  --text-color: var(--text);
+  --border-color: var(--border);
 }
 
 /* Shell */
@@ -16,14 +28,13 @@
   transition: transform .28s ease;
   background: var(--card-bg, var(--panel));
   border-right: 1px solid var(--border-color, var(--border));
-  z-index: 50;
+  z-index: 1000; /* keep above backdrop */
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   will-change: transform;
 }
-
 .sidebar.open{ transform: translateX(0) }
 
 /* Backdrop */
@@ -34,7 +45,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s ease;
-  z-index: 40;
+  z-index: 900; /* below sidebar */
 }
 .backdrop.show{
   opacity: 1;
@@ -60,7 +71,7 @@
 .close-btn:hover{ background: color-mix(in oklab, var(--text-color, var(--text)) 6%, transparent) }
 .close-btn:focus-visible{
   outline: none;
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary, #7c5cff) 45%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 45%, transparent);
 }
 
 /* Nav */
@@ -84,7 +95,7 @@
 }
 .navlink:focus-visible{
   outline: none;
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary, #7c5cff) 45%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 45%, transparent);
 }
 .navlink.active{
   background: var(--accent-bg);
@@ -140,10 +151,10 @@
   .sidebar{
     position: sticky;
     inset: var(--topbar-h) auto 0 0;
-    transform: translateX(-100%);   /* remain hidden until .open */
+    transform: translateX(-100%);   /* hidden until .open */
   }
   .sidebar.open{ transform: none }  /* visible when toggled */
-  .page.has-sidebar{ margin-left: var(--sidebar-w) }
+  /* If you want the page to shift when open on desktop, add .page.has-sidebar in your layout */
 }
 
 /* Reduced motion */
@@ -157,18 +168,17 @@
   .navlink:focus-visible,
   .close-btn:focus-visible{ outline: 2px solid Highlight; box-shadow: none }
 }
+
 /* === Mobile tweaks (≤480px) === */
 @media (max-width: 480px){
   .sidebar{
-    width: min(88vw, 320px);   /* a bit narrower for tiny phones */
+    width: min(88vw, 320px);
   }
   .navlink{
-    padding: 12px 12px;        /* comfy thumb targets */
+    padding: 12px 12px;
   }
   .sidebar-header{ padding: 12px; }
-  .sidebar-theme{
-    padding: 10px 12px;
-  }
+  .sidebar-theme{ padding: 10px 12px; }
 }
 
 /* === Small tablet (481–900px) === */
