@@ -451,3 +451,72 @@ label>span{ color: var(--muted); font-size:.95rem }
   from { opacity:0; transform: translateY(15px) }
   to   { opacity:1; transform: translateY(0) }
 }
+/* --------------------------------------------
+   15) MOBILE BREAKPOINT TUNING (≤640px)
+   -------------------------------------------- */
+@media (max-width: 640px){
+
+  /* tighter page gutters under the topbar */
+  .page{ padding: var(--space-3) var(--space-2); }
+  .page.page-top{
+    padding-top: var(--space-3);
+  }
+
+  /* container padding + full width on small */
+  .page > .container,
+  .page.page-top > .container{
+    max-width: 100%;
+    padding-inline: var(--space-2);
+  }
+
+  /* headline & hero bits */
+  .home-title{
+    /* slightly smaller top headings on phones */
+    font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+    line-height: 1.15;
+  }
+  .home-subtitle{ font-size: 1.05rem; }
+  .home-logo{ width: clamp(48px, 12vw, 72px); }
+
+  /* action row: buttons stack nicely */
+  .home-actions{
+    flex-direction: column;
+    gap: 10px;
+  }
+  .home-actions .btn{ width: 100%; } /* big, tappable targets */
+
+  /* global button targets on small screens */
+  .btn{ padding: 12px 14px; }
+
+  /* lists & paragraphs tighten a bit */
+  p{ margin: .25rem 0 .85rem; }
+  .about-list{ padding-left: 1.15rem; }
+
+  /* quiz: larger touch targets + readable spacing */
+  .options{ gap: 12px; }
+  .option{
+    padding: 14px 14px;
+    font-size: 0.98rem;
+  }
+  .quiz-head{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* animated background glow: smaller & gentler on phones */
+  .app-shell::before{
+    background-size: 70vw 70vw, 80vw 80vw;
+    animation-duration: 22s, 2000s, 8s; /* slower drift/pulse */
+    opacity: .9;
+  }
+}
+
+/* --------------------------------------------
+   16) SMALL TABLET TUNING (641–900px)
+   -------------------------------------------- */
+@media (min-width: 641px) and (max-width: 900px){
+  .page{ padding: var(--space-4) var(--space-3); }
+  .home-title{ font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+  .home-actions{ gap: 12px; }
+}

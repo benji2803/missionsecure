@@ -157,3 +157,21 @@
   .navlink:focus-visible,
   .close-btn:focus-visible{ outline: 2px solid Highlight; box-shadow: none }
 }
+/* === Mobile tweaks (≤480px) === */
+@media (max-width: 480px){
+  .sidebar{
+    width: min(88vw, 320px);   /* a bit narrower for tiny phones */
+  }
+  .navlink{
+    padding: 12px 12px;        /* comfy thumb targets */
+  }
+  .sidebar-header{ padding: 12px; }
+  .sidebar-theme{
+    padding: 10px 12px;
+  }
+}
+
+/* === Small tablet (481–900px) === */
+@media (min-width: 481px) and (max-width: 900px){
+  .sidebar{ width: 300px; }
+}
