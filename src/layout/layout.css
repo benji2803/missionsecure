@@ -205,75 +205,51 @@ body{
 .logo-toggle.is-open{ transform: rotate(180deg) scale(1.02) }
 
 /* --------------------------------------------
-   5) PAGE LAYOUT — base + helpers
+   5) PAGE LAYOUT — base + helpers (FLUSH TOP)
    -------------------------------------------- */
 
-/* Base page: fills the viewport minus topbar so normal screens look tidy */
+/* Base page: sits right under the topbar. No top padding. */
 .page{
-  padding: var(--space-4) var(--space-3);
+  /* top padding removed */
+  padding: 0 var(--space-3) var(--space-4);
   min-height: calc(100vh - var(--topbar-h));
+  margin: 0;
 }
 
-/* Mobile address bar safe */
+/* Mobile address bar safe height */
 @supports (height: 100svh){
   .page{ min-height: calc(100svh - var(--topbar-h)); }
 }
 
-.page.no-scroll{ overflow:hidden }
-
-/* Push content only when sidebar is open (desktop) */
-@media (min-width: 1024px){
-  .page.has-sidebar{ margin-left: var(--sidebar-w) }
-}
-
-/* Home route: hero controls its own spacing */
-.home-route{
-  padding: 0;
-  overflow: hidden;
-}
-
-/* --------------------------------------------
-   5) PAGE LAYOUT — base + helpers (FINAL)
-   -------------------------------------------- */
-
-/* Base page: top-aligned under the topbar. No min-height here. */
-.page{
-  padding: var(--space-4) var(--space-3);
-  margin: 0;
-}
-
-/* Non-home pages that must start immediately under the topbar */
+/* If a page previously used .page-top, keep it flush too */
 .page.page-top{
-  /* absolutely no vertical centering */
-  min-height: auto;                 /* kill the old full-height behavior */
-  padding-top: var(--space-4);      /* small breathing room under topbar */
+  min-height: auto;
+  padding-top: 0;
   overflow: visible;
 }
 
-/* Make sure first child can’t add phantom gap */
+/* First element can’t reintroduce a top gap */
+.page > *:first-child,
 .page.page-top > *:first-child{
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
-/* Keep content horizontally centered when you use .container */
+/* Keep content width constraints tidy when using .container */
 .page > .container,
 .page.page-top > .container{
   margin-inline: auto;
   max-width: 980px;
 }
 
-/* Home route: the ONLY page that should fill the viewport */
+/* Home route keeps control of its own spacing if needed */
 .home-route{
-  padding: 0;                        /* hero controls its own spacing */
+  padding: 0;
   min-height: calc(100vh - var(--topbar-h));
 }
 @supports (height: 100svh){
   .home-route{ min-height: calc(100svh - var(--topbar-h)); }
 }
-
-/* Optional: prevent any scroll-jiggle on the home hero only */
-.home-route.page{ overflow: hidden; }
 
 /* Desktop: push content only when the sidebar is actually open */
 @media (min-width: 1024px){
@@ -455,11 +431,15 @@ label>span{ color: var(--muted); font-size:.95rem }
    15) MOBILE BREAKPOINT TUNING (≤640px)
    -------------------------------------------- */
 @media (max-width: 640px){
+  /* tighter page gutters under the topbar, still no top padding */
+  .page{ padding: 0 var(--space-2) var(--space-3); }
+  .page.page-top{ padding-top: 0; }
 
-  /* tighter page gutters under the topbar */
-  .page{ padding: var(--space-3) var(--space-2); }
-  .page.page-top{
-    padding-top: var(--space-3);
+  /* container padding + full width on small */
+  .page > .container,
+  .page.page-top > .container{
+    max-width: 100%;
+    padding-inline: var(--space-2);
   }
 
   /* container padding + full width on small */
