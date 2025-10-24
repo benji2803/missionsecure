@@ -1,53 +1,52 @@
-// src/ui/Sidebar.jsx
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { routes } from "../routes/table.jsx";
 import "./Sidebar.css";
 
-export default function Sidebar({ open, onClose, items = [] }) {
+export default function Sidebar({ open, onClose }) {
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onClick = (e) => {
+      if (!panelRef.current) return;
+      if (!panelRef.current.contains(e.target)) onClose();
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [open, onClose]);
+
+  useEffect(() => {
+    if (open && panelRef.current) {
+      const focusable = panelRef.current.querySelector("a,button");
+      focusable?.focus();
+    }
+  }, [open]);
+
+  const menu = routes.filter(r => r.label);
+
   return (
     <>
-      {/* Scrim for mobile */}
-      <button
-        className={`sidebar__scrim ${open ? "is-open" : ""}`}
-        aria-hidden={!open}
-        tabIndex={-1}
-        onClick={onClose}
-      />
-
-      <aside className={`sidebar ${open ? "is-open" : ""}`} aria-label="Site">
-        <div className="sidebar__head">
-          <div className="sidebar__brand">
-            <span className="sidebar__logo">🛡️</span>
-            <span className="sidebar__title">Mission Secure</span>
-          </div>
-          <button
-            className="sidebar__close"
-            aria-label="Close menu"
-            onClick={onClose}
-          >
-            ✕
-          </button>
+      <div className={`backdrop ${open ? "show" : ""}`} aria-hidden={!open} />
+      <nav id="app-sidebar" className={`sidebar ${open ? "open" : ""}`} aria-hidden={!open} aria-label="Primary" ref={panelRef}>
+        <div className="sidebar-header">
+          <span className="sidebar-title">Menu</span>
+          <button className="close-btn" onClick={onClose} aria-label="Close menu">×</button>
         </div>
-
-        <nav className="sidebar__nav">
-          {items.map((it) => (
-            <NavLink
-              key={it.path}
-              to={it.path}
-              className={({ isActive }) =>
-                `sidebar__link ${isActive ? "is-active" : ""}`
-              }
-              onClick={onClose}
-            >
-              <span className="sidebar__dot" />
-              {it.label}
-            </NavLink>
+        <ul className="navlist">
+          {menu.map(({ path, label }) => (
+            <li key={path}>
+              <NavLink
+                to={path}
+                className={({ isActive }) => "navlink" + (isActive ? " active" : "")}
+                onClick={onClose}
+              >
+                {label}
+              </NavLink>
+            </li>
           ))}
-        </nav>
-
-        <div className="sidebar__foot">
-          <p className="sidebar__muted">© {new Date().getFullYear()} Mission Secure</p>
-        </div>
-      </aside>
+        </ul>
+      </nav>
     </>
   );
 }

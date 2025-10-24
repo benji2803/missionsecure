@@ -1,0 +1,22 @@
+:root {
+  --topbar-h: 56px;
+  --sidebar-w: 280px;
+  --backdrop: rgba(0,0,0,.45);
+  --surface: #0f172a;
+  --text: #e5e7eb;
+  --brand: #60a5fa;
+}
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:#0b1020;color:var(--text)}
+.app-shell{min-height:100%}
+.topbar{position:sticky;top:0;z-index:40;height:var(--topbar-h);display:flex;align-items:center;gap:12px;padding:0 12px;background:linear-gradient(180deg,#0b1020,#0a0f1d);border-bottom:1px solid rgba(255,255,255,.06)}
+.brand{font-size:1.05rem;font-weight:600;color:var(--brand);margin:0}
+.icon-btn{background:transparent;border:0;color:var(--text);width:40px;height:40px;display:grid;place-items:center;border-radius:10px;cursor:pointer}
+.icon-btn:hover{background:rgba(255,255,255,.06)}
+.hamburger .line{transition:transform .24s ease,opacity .2s ease;stroke-linecap:round}
+.hamburger.is-open .top{transform:translateY(5px) rotate(45deg)}
+.hamburger.is-open .mid{opacity:0}
+.hamburger.is-open .bot{transform:translateY(-5px) rotate(-45deg)}
+.page{padding:16px}
+.page.no-scroll{overflow:hidden}

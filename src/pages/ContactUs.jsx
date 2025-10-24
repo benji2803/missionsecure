@@ -1,165 +1,42 @@
-// src/pages/ContactUs.jsx  (you can also put this in src/ui/ if you prefer)
-import React, { useEffect, useRef, useState } from "react";
-
-const API_BASE = import.meta.env.VITE_API_BASE || ""; // empty => same-origin
-
 export default function ContactUs() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const firstFieldRef = useRef(null);
-
-  const handleChange = (e) =>
-    setFormData((s) => ({ ...s, [e.target.name]: e.target.value }));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setStatus("");
-
-    try {
-      const res = await fetch(`${API_BASE}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        setStatus("✅ Message sent!");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        const err = await res.json().catch(() => ({}));
-        setStatus(err?.error || "❌ Failed to send.");
-      }
-    } catch {
-      setStatus("❌ Error sending message.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  // Handle Esc + focus + body scroll lock
-  useEffect(() => {
-    if (!isOpen) return;
-
-    // focus first input
-    firstFieldRef.current?.focus();
-
-    const onKey = (e) => e.key === "Escape" && setIsOpen(false);
-    window.addEventListener("keydown", onKey);
-
-    // lock background scroll
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [isOpen]);
-
   return (
-    <>
-      {/* Trigger button — place wherever you want (topbar, page, etc.) */}
-      <button className="btn btn--ghost" onClick={() => setIsOpen(true)}>
-        Contact Us
-      </button>
-
-      {isOpen && (
-        <div
-          className="modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="contactUsTitle"
-          aria-describedby="contactUsDesc"
-          onClick={() => setIsOpen(false)}                // backdrop click closes
-        >
-          <div
-            className="modal__card bubble"
-            onClick={(e) => e.stopPropagation()}         // don't close when clicking card
-          >
-            <div className="modal__head">
-              <div className="about-brand">
-                <h3 id="contactUsTitle">Contact Us</h3>
-                <p id="contactUsDesc" style={{ margin: 0, color: "var(--text-muted)" }}>
-                  Send us a message and we’ll get back to you.
-                </p>
-              </div>
-              <button
-                className="link"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close Contact Us modal"
-              >
-                ✕
-              </button>
-            </div>
-
-            <form
-              onSubmit={handleSubmit}
-              className="cta"
-              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-            >
-              <input
-                ref={firstFieldRef}
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                required
-                autoComplete="name"
-                style={{
-                  borderRadius: "12px",
-                  padding: "0.8rem",
-                  border: "1px solid var(--border)",
-                  background: "var(--panel)",
-                  color: "var(--text)",
-                }}
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                required
-                autoComplete="email"
-                style={{
-                  borderRadius: "12px",
-                  padding: "0.8rem",
-                  border: "1px solid var(--border)",
-                  background: "var(--panel)",
-                  color: "var(--text)",
-                }}
-              />
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Your Message"
-                rows="4"
-                required
-                style={{
-                  borderRadius: "12px",
-                  padding: "0.8rem",
-                  border: "1px solid var(--border)",
-                  background: "var(--panel)",
-                  color: "var(--text)",
-                }}
-              />
-              <button type="submit" className="btn btn--primary" disabled={submitting}>
-                {submitting ? "Sending..." : "Send"}
-              </button>
-            </form>
-
-            {status && (
-              <p style={{ marginTop: "8px", color: "var(--text-muted)" }}>
-                {status}
-              </p>
-            )}
-          </div>
-        </div>
-      )}
-    </>
+    <section style={{ padding: 16, maxWidth: 720 }}>
+      <h2 style={{ marginTop: 0 }}>Contact Us</h2>
+      <form
+        onSubmit={(e) => { e.preventDefault(); alert("Thanks! We received your message."); }}
+        style={{ display: "grid", gap: 12 }}
+      >
+        <label style={{ display: "grid", gap: 6 }}>
+          <span>Name</span>
+          <input required name="name" style={inputStyle} />
+        </label>
+        <label style={{ display: "grid", gap: 6 }}>
+          <span>Email</span>
+          <input required type="email" name="email" style={inputStyle} />
+        </label>
+        <label style={{ display: "grid", gap: 6 }}>
+          <span>Message</span>
+          <textarea required name="message" rows={5} style={{ ...inputStyle, resize: "vertical" }} />
+        </label>
+        <button type="submit" style={btnStyle}>Send</button>
+      </form>
+    </section>
   );
 }
+const inputStyle = {
+  padding: "10px 12px",
+  borderRadius: 10,
+  border: "1px solid rgba(255,255,255,.15)",
+  background: "rgba(255,255,255,.05)",
+  color: "white"
+};
+const btnStyle = {
+  padding: "10px 14px",
+  borderRadius: 10,
+  border: "1px solid rgba(255,255,255,.15)",
+  background: "linear-gradient(180deg,#1f2a44,#18233a)",
+  color: "white",
+  fontWeight: 600,
+  cursor: "pointer",
+  width: "fit-content"
+};

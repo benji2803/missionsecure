@@ -1,15 +1,20 @@
 // src/routes/table.jsx
 import { lazy } from "react";
 
-// Map routes → actual files in src/pages
-const WhoWeAre        = lazy(() => import("../pages/TeamPage.jsx"));           // "Who We Are"
-const Resources       = lazy(() => import("../pages/BeginnerGuidePage.jsx"));  // "Resources" (for now)
-const LatestCyberNews = lazy(() => import("../pages/CyberNews.jsx"));          // "Latest Cyber News"
+const Home = lazy(() => import("../pages/Home.jsx"));
+const TeamPage = lazy(() => import("../pages/TeamPage.jsx"));                // Who We Are
+const BeginnerGuidePage = lazy(() => import("../pages/BeginnerGuidePage.jsx")); // Resources
+const CyberNews = lazy(() => import("../pages/CyberNews.jsx"));              // Latest Cyber News
+const ContactUs = lazy(() => import("../pages/ContactUs.jsx"));
+const Quiz = lazy(() => import("../pages/Quiz.jsx"));
 
 export const routes = [
-  { path: "/who-we-are", label: "Who We Are", element: <WhoWeAre /> },
-  { path: "/resources",  label: "Resources",  element: <Resources /> },
-  { path: "/news",       label: "Latest Cyber News", element: <LatestCyberNews /> },
+  { path: "/", label: "Home", element: <Home /> },
+  { path: "/who-we-are", label: "Who We Are", element: <TeamPage /> },
+  { path: "/resources", label: "Resources", element: <BeginnerGuidePage /> },
+  { path: "/news", label: "Latest Cyber News", element: <CyberNews /> },
+  { path: "/contact", label: "Contact Us", element: <ContactUs /> },
+  { path: "/quiz", label: "Take Assessment", element: <Quiz /> },
 ];
 
 export const notFound = {

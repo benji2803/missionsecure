@@ -1,41 +1,40 @@
-// src/layout/RootLayout.jsx
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sidebar from "../ui/Sidebar.jsx";
-import "../ui/Sidebar.css";
-import { routes } from "../routes/table.jsx"; // for sidebar items
+import "./layout.css";
 
 export default function RootLayout({ children }) {
   const [open, setOpen] = useState(false);
+  const btnRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <div className="app-shell">
-      {/* Top bar with hamburger */}
-      <header className="topbar" style={{ position: "fixed", inset: "0 0 auto 0", zIndex: 28 }}>
-        <div className="rail">
-          <button
-            className="btn btn--ghost"
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-            style={{ padding: "0.6rem 0.9rem" }}
-          >
-            ☰
-          </button>
-
-          <div className="brand" style={{ marginLeft: 8 }}>
-            <h2>
-              Cyber Hygiene Test <span className="by">by Mission Secure</span>
-            </h2>
-          </div>
-        </div>
+      <header className="topbar">
+        <button
+          ref={btnRef}
+          className="icon-btn"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="app-sidebar"
+          onClick={() => setOpen(v => !v)}
+        >
+          <svg className={`hamburger ${open ? "is-open" : ""}`} viewBox="0 0 24 24" width="28" height="28" role="img" aria-hidden="true">
+            <path className="line top" d="M4 7h16" strokeWidth="2" stroke="currentColor" />
+            <path className="line mid" d="M4 12h16" strokeWidth="2" stroke="currentColor" />
+            <path className="line bot" d="M4 17h16" strokeWidth="2" stroke="currentColor" />
+          </svg>
+        </button>
+        <h1 className="brand">Mission Secure</h1>
       </header>
 
-      {/* Sidebar (overlay on mobile, docked on desktop) */}
-      <Sidebar open={open} onClose={() => setOpen(false)} items={routes} />
-
-      {/* Routed content */}
-      <main style={{ paddingTop: 64 }}>
-        {children}
-      </main>
+      <Sidebar open={open} onClose={() => setOpen(false)} />
+      <main className={`page ${open ? "no-scroll" : ""}`}>{children}</main>
     </div>
   );
 }
