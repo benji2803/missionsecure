@@ -210,10 +210,12 @@ body{
 
 /* Base page: sits right under the topbar. No top padding. */
 .page{
-  /* top padding removed */
+  /* remove ALL top spacing */
   padding: 0 var(--space-3) var(--space-4);
   min-height: calc(100vh - var(--topbar-h));
   margin: 0;
+  position: relative;
+  top: -200px; /* nudge up to remove any pixel gap */
 }
 
 /* Mobile address bar safe height */
@@ -261,16 +263,23 @@ body{
    -------------------------------------------- */
 .home{
   height: 100%;               /* fill the whole main area */
-  display: grid;              /* perfect center */
-  place-items: center;
+  display: grid;
+  /* align near the top under the topbar, keep horizontal centering */
+  place-items: start center;
   text-align: center;
-  padding: var(--space-5) var(--space-3);
+  /* ensure no extra top padding so the hero sits directly under the topbar */
+  padding-top: 0;
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  padding-bottom: var(--space-4);
 }
 .home-content{
   max-width: 700px;
-  margin: 0 auto;
+  margin: -8px auto 0; /* negative margin to pull content up */
   animation: fadeIn .8s ease;
+  padding: 0 !important;
 }
+.home-content > *:first-child { margin-top: 0 !important; padding-top: 0 !important; }
 .home-content > *:last-child{ margin-bottom: 0 }
 .home-title{
   font-size: clamp(1.8rem, 1rem + 3vw, 2.8rem);
