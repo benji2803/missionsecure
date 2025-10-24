@@ -25,8 +25,14 @@
   width: var(--sidebar-w);
   transform: translateX(-100%);
   transition: transform .28s ease;
-  background: var(--card-bg, var(--panel));
-  border-right: 1px solid var(--border-color, var(--border));
+  /* Enhanced glassy background */
+  background: color-mix(in oklab, var(--card-bg, var(--panel)) 98%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid color-mix(in oklab, var(--border-color, var(--border)) 80%, transparent);
+  box-shadow: 
+    0 0 0 1px color-mix(in oklab, var(--border-color, var(--border)) 20%, transparent),
+    4px 0 24px -2px rgba(0,0,0,.12);
   z-index: 2147483640; /* keep WELL above backdrop on iOS */
   display: flex;
   flex-direction: column;
@@ -42,7 +48,9 @@
 .backdrop{
   position: fixed;
   inset: var(--topbar-h) 0 0 0;
-  background: var(--backdrop);
+  background: color-mix(in oklab, var(--backdrop) 95%, transparent);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s ease;
@@ -153,11 +161,22 @@
 @media (min-width:1024px){
   .backdrop{ display:none }
   .sidebar{
-    position: sticky;
+    position: fixed; /* keep fixed to ensure content doesn't overlap */
     inset: var(--topbar-h) auto 0 0;
     transform: translateX(-100%);
   }
-  .sidebar.open{ transform: none }
+  .sidebar.open{ 
+    transform: none;
+    /* Stronger desktop presence */
+    box-shadow: 
+      0 0 0 1px color-mix(in oklab, var(--border-color, var(--border)) 20%, transparent),
+      4px 0 32px -4px rgba(0,0,0,.16);
+  }
+  /* Ensure main content is pushed aside */
+  body:has(.sidebar.open) .page {
+    margin-left: var(--sidebar-w);
+    width: calc(100% - var(--sidebar-w));
+  }
 }
 
 /* Reduced motion */
@@ -172,15 +191,62 @@
   .close-btn:focus-visible{ outline: 2px solid Highlight; box-shadow: none }
 }
 
-/* Mobile tweaks */
-@media (max-width: 480px){
-  .sidebar{ width: min(88vw, 320px); }
-  .navlink{ padding: 12px 12px; }
-  .sidebar-header{ padding: 12px; }
-  .sidebar-theme{ padding: 10px 12px; }
+/* Mobile and tablet tweaks */
+@media (max-width: 1023px){
+  /* Wider touch area for the sidebar */
+  .sidebar{ 
+    width: min(85vw, 320px);
+    touch-action: pan-y pinch-zoom;
+    /* Enhanced mobile glass effect */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: color-mix(in oklab, var(--card-bg, var(--panel)) 99%, transparent);
+  }
+  
+  /* Larger touch targets */
+  .navlink{ 
+    padding: 14px 16px;
+    margin: 2px 0;
+  }
+  
+  /* Adjust header and theme switcher spacing */
+  .sidebar-header{ 
+    padding: 16px;
+    border-bottom: 1px solid color-mix(in oklab, var(--border-color, var(--border)) 90%, transparent);
+  }
+  .sidebar-theme{ 
+    padding: 16px;
+    border-top: 1px solid color-mix(in oklab, var(--border-color, var(--border)) 90%, transparent);
+  }
+  
+  /* Larger close button */
+  .close-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+  }
+
+  /* Stronger backdrop for mobile */
+  .backdrop {
+    background: color-mix(in oklab, var(--backdrop) 98%, transparent);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Ensure content doesn't peek through */
+  .sidebar.open {
+    box-shadow: 
+      0 0 0 1px color-mix(in oklab, var(--border-color, var(--border)) 30%, transparent),
+      4px 0 25px rgba(0,0,0,.2);
+  }
 }
 
-/* Small tablet */
-@media (min-width: 481px) and (max-width: 900px){
-  .sidebar{ width: 300px; }
+/* Small screen content adjustments */
+@media (max-width: 480px) {
+  .sidebar{ 
+    width: min(90vw, 300px);
+  }
+  .navlist {
+    padding: 12px;
+  }
 }

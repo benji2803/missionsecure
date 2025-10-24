@@ -216,6 +216,9 @@ body{
   margin: 0;
   position: relative;
   top: -200px; /* nudge up to remove any pixel gap */
+  width: 100%; /* ensure full width on mobile */
+  overflow-x: hidden; /* prevent horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
 }
 
 /* Mobile address bar safe height */
@@ -440,22 +443,29 @@ label>span{ color: var(--muted); font-size:.95rem }
    15) MOBILE BREAKPOINT TUNING (≤640px)
    -------------------------------------------- */
 @media (max-width: 640px){
-  /* tighter page gutters under the topbar, still no top padding */
-  .page{ padding: 0 var(--space-2) var(--space-3); }
+  /* Optimize mobile layout and touch interactions */
+  .page{ 
+    padding: 0 var(--space-2) var(--space-3);
+    touch-action: manipulation; /* optimize touch handling */
+  }
   .page.page-top{ padding-top: 0; }
 
-  /* container padding + full width on small */
+  /* Ensure content fits mobile screens */
   .page > .container,
   .page.page-top > .container{
     max-width: 100%;
     padding-inline: var(--space-2);
+    width: 100%;
+    overflow-x: hidden;
   }
-
-  /* container padding + full width on small */
-  .page > .container,
-  .page.page-top > .container{
-    max-width: 100%;
-    padding-inline: var(--space-2);
+  
+  /* Add safe area insets for modern mobile browsers */
+  @supports(padding: max(0px)) {
+    .page {
+      padding-left: max(var(--space-2), env(safe-area-inset-left));
+      padding-right: max(var(--space-2), env(safe-area-inset-right));
+      padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+    }
   }
 
   /* headline & hero bits */
