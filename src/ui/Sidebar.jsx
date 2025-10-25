@@ -1,6 +1,6 @@
 // src/ui/Sidebar.jsx
 import { useEffect, useRef, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { routes } from "../routes/table.jsx";
 import "./Sidebar.css";
 
