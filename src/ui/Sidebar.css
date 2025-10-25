@@ -197,10 +197,11 @@
   .sidebar{ 
     width: min(85vw, 320px);
     touch-action: pan-y pinch-zoom;
-    /* Enhanced mobile glass effect */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: color-mix(in oklab, var(--card-bg, var(--panel)) 99%, transparent);
+    /* Solid background for better mobile performance */
+    background: var(--card-bg, var(--panel));
+    box-shadow: 
+      0 0 0 1px color-mix(in oklab, var(--border-color, var(--border)) 30%, transparent),
+      4px 0 25px rgba(0,0,0,.25);
   }
   
   /* Larger touch targets */

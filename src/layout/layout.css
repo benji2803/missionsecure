@@ -210,15 +210,20 @@ body{
 
 /* Base page: sits right under the topbar. No top padding. */
 .page{
-  /* remove ALL top spacing */
   padding: 0 var(--space-3) var(--space-4);
   min-height: calc(100vh - var(--topbar-h));
-  margin: 0;
-  position: relative;
-  top: -200px; /* nudge up to remove any pixel gap */
+  margin-top: -180px; /* Move all pages up consistently */
   width: 100%; /* ensure full width on mobile */
-  overflow-x: hidden; /* prevent horizontal scroll */
+  overflow-x: visible; /* allow content to flow normally */
   -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+  position: relative;
+  z-index: 1; /* ensure content stays above background */
+}
+
+/* Content wrapper to provide spacing */
+.page > *:first-child {
+  margin-top: 0;
+  padding-top: var(--space-4);
 }
 
 /* Mobile address bar safe height */
@@ -229,8 +234,12 @@ body{
 /* If a page previously used .page-top, keep it flush too */
 .page.page-top{
   min-height: auto;
-  padding-top: 0;
   overflow: visible;
+}
+
+/* Ensure container pages have proper spacing */
+.page > .container {
+  padding-top: var(--space-4);
 }
 
 /* First element can’t reintroduce a top gap */
@@ -302,7 +311,23 @@ body{
   width: clamp(56px, 9vw, 84px);
   height: auto;
   margin-bottom: var(--space-3);
-  filter: drop-shadow(0 0 10px color-mix(in oklab, var(--brand) 50%, transparent));
+  filter: 
+    drop-shadow(0 0 15px color-mix(in oklab, var(--brand) 45%, transparent))
+    drop-shadow(0 -8px 25px color-mix(in oklab, var(--primary) 35%, transparent));
+  animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+  from { 
+    filter: 
+      drop-shadow(0 0 15px color-mix(in oklab, var(--brand) 45%, transparent))
+      drop-shadow(0 -8px 25px color-mix(in oklab, var(--primary) 35%, transparent));
+  }
+  to { 
+    filter: 
+      drop-shadow(0 0 20px color-mix(in oklab, var(--brand) 55%, transparent))
+      drop-shadow(0 -10px 30px color-mix(in oklab, var(--primary) 45%, transparent));
+  }
 }
 
 /* --------------------------------------------
@@ -388,15 +413,23 @@ label>span{ color: var(--muted); font-size:.95rem }
 /* --------------------------------------------
    10) QUIZ OPTIONS
    -------------------------------------------- */
-.options{ display:grid; gap:10px }
+.options{ 
+  display: grid; 
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-3);
+}
 .option{
-  text-align:left;
-  border:1px solid var(--border-color);
+  text-align: left;
+  border: 1px solid var(--border-color);
   background: var(--panel);
   color: var(--text-color);
-  border-radius:12px;
-  padding:.9rem 1rem;
-  cursor:pointer;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  width: 100%;
   transition: border-color .15s ease, background .15s ease, transform .12s ease, box-shadow .15s ease;
 }
 .option:hover{
@@ -408,9 +441,23 @@ label>span{ color: var(--muted); font-size:.95rem }
 .option:active{ transform: translateY(0) }
 .option[disabled]{ opacity:.6; cursor:not-allowed; transform:none }
 
-.quiz-head{ display:flex; justify-content:space-between; align-items:center; margin:.5rem 0 1rem }
-.progress{ color: var(--muted) }
-.q{ margin:.25rem 0 1rem }
+.quiz-head{ 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin: 0 0 var(--space-4);
+  width: 100%;
+  padding-top: var(--space-4);
+}
+.progress{ 
+  color: var(--muted);
+  font-weight: 600;
+}
+.q{ 
+  margin: var(--space-3) 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
 
 /* --------------------------------------------
    11) UTILITIES
