@@ -89,31 +89,36 @@
   gap: 6px;
 }
 
-.nav-button {
+.nav-link {
   display: flex;
   width: 100%;
-  padding: 14px 16px;
+  padding: 16px;
   border-radius: 12px;
   color: var(--text-color, var(--text));
   text-decoration: none;
-  border: 1px solid transparent;
+  border: none;
   background: transparent;
-  transition: background 0.15s ease;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
   font-size: 16px;
-  text-align: left;
+  line-height: 1.2;
   cursor: pointer;
-  min-height: 50px;
   align-items: center;
   font-family: inherit;
+  margin: 4px 0;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  touch-action: manipulation;
 }
 
-.nav-button.active {
+.nav-link.active {
   background: var(--accent-bg);
-  border-color: var(--accent-border);
   color: var(--accent-text);
   font-weight: 600;
+}
+
+/* Touch feedback */
+.nav-link:active {
+  background-color: rgba(124,92,255,0.2);
+  transform: scale(0.98);
 }
 
 .theme-button {
@@ -345,36 +350,47 @@
 
 /* Mobile-specific improvements */
 @media (max-width: 1023px) {
-  .navlink {
-    min-height: 50px;
-    padding: 14px 16px;
-    margin: 4px 0;
-    display: flex;
-    align-items: center;
+  .nav-link {
+    padding: 16px;
+    min-height: 54px;
     font-size: 16px;
-    -webkit-tap-highlight-color: transparent;
+    margin: 4px 0;
   }
 
-  .navlink:active {
-    background: color-mix(in oklab, var(--text-color, var(--text)) 8%, transparent);
+  .theme-button {
+    margin-top: 8px;
+    padding: 16px;
+    border-top: 1px solid var(--border-color, var(--border));
   }
-  
-  .theme-toggle {
-    width: 64px;
-    height: 34px;
+
+  .theme-icon {
+    margin-right: 12px;
+    font-size: 18px;
   }
-  
-  .toggle-thumb {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .toggle-thumb.right {
-    transform: translateX(30px);
-  }
-  
+
+  /* Prevent text selection on mobile */
   .sidebar * {
     user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Better touch feedback */
+  .nav-link:active {
+    background-color: rgba(124,92,255,0.2);
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  /* Remove default mobile touch highlights */
+  .nav-link, 
+  .theme-button {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  /* Add visible focus for accessibility */
+  .nav-link:focus-visible {
+    box-shadow: 0 0 0 2px var(--primary);
   }
 }
 

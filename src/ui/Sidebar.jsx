@@ -83,40 +83,48 @@ export default function Sidebar({ open, onClose }) {
         <ul className="navlist">
           {menu.map(({ path, label }) => (
             <li key={path}>
-              <button
-                className={`nav-button ${location.pathname === path ? 'active' : ''}`}
-                onClick={() => {
-                  try {
-                    navigate(path);
-                    onClose();
-                  } catch (error) {
-                    console.error('Navigation error:', error);
-                    navigate('/');
-                  }
+              <NavLink
+                to={path}
+                className={({ isActive }) => 
+                  `nav-link ${isActive ? 'active' : ''}`
+                }
+                onClick={(e) => {
+                  onClose();
                 }}
               >
                 {label}
-              </button>
+              </NavLink>
             </li>
           ))}
         </ul>
 
         {/* Theme slider */}
         <div className="sidebar-theme">
-          <button
-            className="nav-button theme-button"
+          <div 
+            className="nav-link theme-button"
+            role="button"
+            tabIndex={0}
             onClick={() => {
               const newTheme = theme === 'light' ? 'dark' : 'light';
               setTheme(newTheme);
               document.documentElement.dataset.theme = newTheme;
               localStorage.setItem('theme', newTheme);
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const newTheme = theme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+                document.documentElement.dataset.theme = newTheme;
+                localStorage.setItem('theme', newTheme);
+              }
+            }}
           >
             <span className="theme-icon">
               {theme === 'light' ? '🌙' : '☀️'}
             </span>
             Switch to {theme === 'light' ? 'Dark' : 'Light'} mode
-          </button>
+          </div>
         </div>
       </nav>
     </>
