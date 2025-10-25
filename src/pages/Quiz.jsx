@@ -176,7 +176,7 @@ export default function QuizPage() {
                 }}
               >
                 <span aria-hidden="true" style={{ fontSize: 18, lineHeight: 1 }}>
-                  {opt.tag === "best" ? "🟢" : opt.tag === "iffy" ? "🟠" : "🔴"}
+                  {opt.tag === "best" ? "" : opt.tag === "iffy" ? "" : ""}
                 </span>
                 <span>{opt.label}</span>
               </button>
@@ -185,7 +185,7 @@ export default function QuizPage() {
 
           {/* Hint row */}
           <div className="muted" style={{ marginTop: 12, fontSize: ".9rem" }}>
-            Tip: press <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> to answer quickly.
+            Please Be Truthful For Best Results 🙃
           </div>
         </article>
 
