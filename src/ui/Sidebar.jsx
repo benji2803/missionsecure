@@ -1,6 +1,6 @@
 // src/ui/Sidebar.jsx
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../routes/table.jsx";
 import "./Sidebar.css";
 
@@ -78,8 +78,10 @@ export default function Sidebar({ open, onClose }) {
                 to={path}
                 className={({ isActive }) => "navlink" + (isActive ? " active" : "")}
                 onClick={(e) => {
-                  // Ensure the link works before closing
-                  setTimeout(onClose, 50);
+                  e.preventDefault();
+                  // Navigate and close sidebar
+                  navigate(path);
+                  onClose();
                 }}
               >
                 {label}
@@ -90,29 +92,21 @@ export default function Sidebar({ open, onClose }) {
 
         {/* Theme slider */}
         <div className="sidebar-theme">
-          <div 
-            className="theme-toggle" 
+          <button
+            className="theme-toggle"
             aria-label="Theme toggle"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setTheme(theme === "light" ? "dark" : "light");
+            }}
           >
-            <input
-              id="sidebarThemeSwitch"
-              type="checkbox"
-              checked={theme === "light"}
-              onChange={(e) => {
-                e.stopPropagation();
-                setTheme(e.target.checked ? "light" : "dark");
-              }}
-            />
-            <label 
-              htmlFor="sidebarThemeSwitch" 
-              title="Light / Dark"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="toggle-track">
               <span className="sun">☀️</span>
               <span className="moon">🌙</span>
-            </label>
-          </div>
+              <div className={`toggle-thumb ${theme === "light" ? "right" : "left"}`} />
+            </div>
+          </button>
           <span className="theme-label">{theme === "light" ? "Light" : "Dark"} mode</span>
         </div>
       </nav>
