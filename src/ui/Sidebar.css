@@ -179,6 +179,7 @@
 @media (prefers-reduced-motion: reduce){
   .sidebar{ transition: none }
   .backdrop{ transition: none }
+  body:has(.sidebar.open) .page { transition: none }
 }
 
 /* High contrast */
@@ -198,6 +199,18 @@
     box-shadow: 
       0 0 0 1px color-mix(in oklab, var(--border-color, var(--border)) 30%, transparent),
       4px 0 25px rgba(0,0,0,.25);
+    height: 100%; /* ensure full height */
+    overflow-y: auto; /* enable scrolling if needed */
+  }
+  
+  /* Push content when sidebar is open */
+  body:has(.sidebar.open) {
+    overflow: hidden; /* prevent background scrolling */
+  }
+  
+  body:has(.sidebar.open) .page {
+    transform: translateX(min(85vw, 320px));
+    transition: transform 0.28s ease;
   }
   
   /* Larger touch targets */
@@ -223,11 +236,9 @@
     font-size: 24px;
   }
 
-  /* Stronger backdrop for mobile */
+  /* Solid backdrop for mobile */
   .backdrop {
-    background: color-mix(in oklab, var(--backdrop) 98%, transparent);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: var(--backdrop);
   }
 
   /* Ensure content doesn't peek through */
