@@ -6,7 +6,15 @@ import "./Sidebar.css";
 
 export default function Sidebar({ open, onClose }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const panelRef = useRef(null);
+
+  // Handle navigation errors and redirects
+  useEffect(() => {
+    if (location.pathname !== '/' && !routes.some(route => route.path === location.pathname)) {
+      navigate('/');
+    }
+  }, [location, navigate]);
 
   // --- Theme (persist to localStorage) ---
   const pickInitialTheme = () => {
@@ -76,10 +84,15 @@ export default function Sidebar({ open, onClose }) {
           {menu.map(({ path, label }) => (
             <li key={path}>
               <button
-                className="nav-button"
+                className={`nav-button ${location.pathname === path ? 'active' : ''}`}
                 onClick={() => {
-                  navigate(path);
-                  onClose();
+                  try {
+                    navigate(path);
+                    onClose();
+                  } catch (error) {
+                    console.error('Navigation error:', error);
+                    navigate('/');
+                  }
                 }}
               >
                 {label}
@@ -91,8 +104,7 @@ export default function Sidebar({ open, onClose }) {
         {/* Theme slider */}
         <div className="sidebar-theme">
           <button
-            className="theme-toggle"
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            className="nav-button theme-button"
             onClick={() => {
               const newTheme = theme === 'light' ? 'dark' : 'light';
               setTheme(newTheme);
@@ -100,12 +112,11 @@ export default function Sidebar({ open, onClose }) {
               localStorage.setItem('theme', newTheme);
             }}
           >
-            {theme === 'light' ? '🌙' : '☀️'}
-            <span className="theme-label-mobile">
-              {theme === 'light' ? 'Dark' : 'Light'} mode
+            <span className="theme-icon">
+              {theme === 'light' ? '🌙' : '☀️'}
             </span>
+            Switch to {theme === 'light' ? 'Dark' : 'Light'} mode
           </button>
-          <span className="theme-label">{theme === "light" ? "Light" : "Dark"} mode</span>
         </div>
       </nav>
     </>
