@@ -56,11 +56,17 @@ export default function Sidebar({ open, onClose }) {
         aria-label="Primary"
         ref={panelRef}
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
       >
         <div className="sidebar-header">
           <span className="sidebar-title">Menu</span>
-          <button className="close-btn" onClick={onClose} aria-label="Close menu">
+          <button 
+            className="close-btn" 
+            onClick={(e) => {
+              e.preventDefault();
+              onClose();
+            }} 
+            aria-label="Close menu"
+          >
             ×
           </button>
         </div>
@@ -71,8 +77,10 @@ export default function Sidebar({ open, onClose }) {
               <NavLink
                 to={path}
                 className={({ isActive }) => "navlink" + (isActive ? " active" : "")}
-                onClick={onClose}
-                onTouchStart={onClose}
+                onClick={(e) => {
+                  // Ensure the link works before closing
+                  setTimeout(onClose, 50);
+                }}
               >
                 {label}
               </NavLink>
@@ -82,14 +90,25 @@ export default function Sidebar({ open, onClose }) {
 
         {/* Theme slider */}
         <div className="sidebar-theme">
-          <div className="theme-toggle" aria-label="Theme toggle">
+          <div 
+            className="theme-toggle" 
+            aria-label="Theme toggle"
+            onClick={(e) => e.stopPropagation()}
+          >
             <input
               id="sidebarThemeSwitch"
               type="checkbox"
               checked={theme === "light"}
-              onChange={(e) => setTheme(e.target.checked ? "light" : "dark")}
+              onChange={(e) => {
+                e.stopPropagation();
+                setTheme(e.target.checked ? "light" : "dark");
+              }}
             />
-            <label htmlFor="sidebarThemeSwitch" title="Light / Dark">
+            <label 
+              htmlFor="sidebarThemeSwitch" 
+              title="Light / Dark"
+              onClick={(e) => e.stopPropagation()}
+            >
               <span className="sun">☀️</span>
               <span className="moon">🌙</span>
             </label>

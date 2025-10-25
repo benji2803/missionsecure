@@ -87,16 +87,28 @@
   display: grid; gap: 6px;
 }
 .navlink{
-  display:block;
-  padding:12px 14px;
+  display: block;
+  padding: 12px 14px;
   border-radius: 12px;
   color: var(--text-color, var(--text));
-  text-decoration:none;
-  border:1px solid transparent;
+  text-decoration: none;
+  border: 1px solid transparent;
   background: transparent;
   transition: background .15s ease, border-color .15s ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Ensure touch targets are large enough on mobile */
+@media (max-width: 1023px) {
+  .navlink {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+  }
 }
 .navlink:hover{
   background: color-mix(in oklab, var(--text-color, var(--text)) 6%, transparent);
@@ -130,14 +142,27 @@
 }
 
 /* Slider control (sun/moon) */
-.theme-toggle{ position:relative; width:56px; height:30px }
+.theme-toggle{ 
+  position: relative; 
+  width: 56px; 
+  height: 30px;
+  -webkit-tap-highlight-color: transparent;
+}
 .theme-toggle input{ display:none }
 .theme-toggle label{
-  display:grid; grid-template-columns:1fr 1fr; align-items:center; justify-items:center;
-  width:100%; height:100%; border-radius:999px; cursor:pointer;
+  display:grid; 
+  grid-template-columns:1fr 1fr; 
+  align-items:center; 
+  justify-items:center;
+  width:100%; 
+  height:100%; 
+  border-radius:999px; 
+  cursor:pointer;
   background:linear-gradient(135deg, #20263f, #151a2f);
-  border:1px solid var(--border-color, var(--border)); position:relative;
+  border:1px solid var(--border-color, var(--border)); 
+  position:relative;
   user-select:none;
+  touch-action: manipulation;
 }
 :root[data-theme="light"] .theme-toggle label{
   background:linear-gradient(135deg, #e9edff, #dfe5ff);
