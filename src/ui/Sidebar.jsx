@@ -5,6 +5,7 @@ import { routes } from "../routes/table.jsx";
 import "./Sidebar.css";
 
 export default function Sidebar({ open, onClose }) {
+  const navigate = useNavigate();
   const panelRef = useRef(null);
 
   // --- Theme (persist to localStorage) ---
@@ -74,18 +75,15 @@ export default function Sidebar({ open, onClose }) {
         <ul className="navlist">
           {menu.map(({ path, label }) => (
             <li key={path}>
-              <NavLink
-                to={path}
-                className={({ isActive }) => "navlink" + (isActive ? " active" : "")}
-                onClick={(e) => {
-                  e.preventDefault();
-                  // Navigate and close sidebar
+              <button
+                className="nav-button"
+                onClick={() => {
                   navigate(path);
                   onClose();
                 }}
               >
                 {label}
-              </NavLink>
+              </button>
             </li>
           ))}
         </ul>
@@ -94,18 +92,18 @@ export default function Sidebar({ open, onClose }) {
         <div className="sidebar-theme">
           <button
             className="theme-toggle"
-            aria-label="Theme toggle"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setTheme(theme === "light" ? "dark" : "light");
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            onClick={() => {
+              const newTheme = theme === 'light' ? 'dark' : 'light';
+              setTheme(newTheme);
+              document.documentElement.dataset.theme = newTheme;
+              localStorage.setItem('theme', newTheme);
             }}
           >
-            <div className="toggle-track">
-              <span className="sun">☀️</span>
-              <span className="moon">🌙</span>
-              <div className={`toggle-thumb ${theme === "light" ? "right" : "left"}`} />
-            </div>
+            {theme === 'light' ? '🌙' : '☀️'}
+            <span className="theme-label-mobile">
+              {theme === 'light' ? 'Dark' : 'Light'} mode
+            </span>
           </button>
           <span className="theme-label">{theme === "light" ? "Light" : "Dark"} mode</span>
         </div>
