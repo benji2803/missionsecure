@@ -268,12 +268,14 @@
       4px 0 32px -4px rgba(0,0,0,.16);
   }
   /* Ensure main content is pushed aside */
-  body:has(.sidebar.open) .page {
-    margin-left: var(--sidebar-w);
-    width: calc(100% - var(--sidebar-w));
-  }
-}
-
+    /* Make the sidebar participate in document flow so it scrolls with the page; keep it positioned
+       so z-index works when open */
+    position: relative;
+    left: auto;
+    top: auto;
+    height: auto;
+    overflow: visible; /* allow it to move with page scroll */
+    z-index: 2147483640; /* ensure sidebar sits above the backdrop/page */
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .sidebar{ transition: none }
@@ -298,17 +300,27 @@
     box-shadow: 
       0 0 0 1px color-mix(in oklab, var(--border-color, var(--border)) 30%, transparent),
       4px 0 25px rgba(0,0,0,.25);
-    /* Make the sidebar part of the document flow on mobile so it scrolls with the page */
-    position: absolute;
-    top: var(--topbar-h);
-    left: 0;
+    /* Make the sidebar participate in document flow so it scrolls with the page */
+    position: static;
+    left: auto;
+    top: auto;
     height: auto;
-    overflow-y: visible; /* allow it to move with page scroll */
+    overflow: visible; /* allow it to move with page scroll */
   }
   
-  /* Push content when sidebar is open — allow page scrolling so the sidebar moves with content */
+  /* Do not block page scrolling on mobile when the sidebar is open; disable the desktop transform-based push */
   body:has(.sidebar.open) {
     overflow: visible;
+  }
+  body:has(.sidebar.open) .page {
+    transform: none !important;
+  }
+  /* When the sidebar is open, prevent interactions with the underlying page to avoid
+     clickable buttons behind the sidebar. We add `.sidebar-open` from JS for broad support. */
+  body.sidebar-open .page {
+    pointer-events: none;
+    user-select: none;
+    touch-action: none;
   }
   
   body:has(.sidebar.open) .page {
@@ -391,6 +403,9 @@
     -webkit-tap-highlight-color: transparent;
     outline: none;
   }
+
+  /* Ensure the backdrop blocks interaction and covers viewport while sidebar is open */
+  .backdrop { position: fixed; inset: var(--topbar-h) 0 0 0; z-index: 2147483635; }
 
   /* Add visible focus for accessibility */
   .nav-link:focus-visible {

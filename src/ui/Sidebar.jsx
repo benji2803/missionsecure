@@ -9,6 +9,22 @@ export default function Sidebar({ open, onClose }) {
   const location = useLocation();
   const panelRef = useRef(null);
 
+  // Keep a body-level class to control global styles (better browser support than :has())
+  useEffect(() => {
+    const page = document.querySelector('.page');
+    if (open) {
+      document.body.classList.add('sidebar-open');
+      if (page) page.setAttribute('aria-hidden', 'true');
+    } else {
+      document.body.classList.remove('sidebar-open');
+      if (page) page.removeAttribute('aria-hidden');
+    }
+    return () => {
+      document.body.classList.remove('sidebar-open');
+      if (page) page.removeAttribute('aria-hidden');
+    };
+  }, [open]);
+
   // Handle navigation errors and redirects
   useEffect(() => {
     if (location.pathname !== '/' && !routes.some(route => route.path === location.pathname)) {
