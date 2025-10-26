@@ -268,14 +268,7 @@
       4px 0 32px -4px rgba(0,0,0,.16);
   }
   /* Ensure main content is pushed aside */
-    /* Make the sidebar participate in document flow so it scrolls with the page; keep it positioned
-       so z-index works when open */
-    position: relative;
-    left: auto;
-    top: auto;
-    height: auto;
-    overflow: visible; /* allow it to move with page scroll */
-    z-index: 2147483640; /* ensure sidebar sits above the backdrop/page */
+  /* Ensure main content is pushed aside (desktop rules handled above) */
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .sidebar{ transition: none }
@@ -323,10 +316,7 @@
     touch-action: none;
   }
   
-  body:has(.sidebar.open) .page {
-    transform: translateX(min(85vw, 320px));
-    transition: transform 0.28s ease;
-  }
+  
   
   /* Larger touch targets */
   .navlink{ 
