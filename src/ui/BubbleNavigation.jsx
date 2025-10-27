@@ -10,10 +10,17 @@ export default function BubbleNavigation({ open, onClose }) {
   const menuRef = useRef(null);
   
   const toggleMenu = (e) => {
-    e.stopPropagation();
-    e.currentTarget.classList.add('clicked');
-    setTimeout(() => e.currentTarget.classList.remove('clicked'), 200);
-    onClose(!open); // Toggle the open state
+    if (e) {
+      e.stopPropagation();
+      e.currentTarget.classList.add('clicked');
+      setTimeout(() => e.currentTarget.classList.remove('clicked'), 200);
+    }
+    onClose(!open);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    onClose();
   };
 
   // --- Theme handling ---
@@ -44,10 +51,9 @@ export default function BubbleNavigation({ open, onClose }) {
 
   return (
     <>
-      {/* Backdrop with blur */}
       <div 
         className={`bubble-backdrop ${open ? "show" : ""}`} 
-        onClick={onClose}
+        onClick={() => onClose(false)}
       />
 
       {/* Toggle Button */}

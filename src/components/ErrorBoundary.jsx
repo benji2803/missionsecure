@@ -1,23 +1,56 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Component } from 'react';
 
-export default function ErrorBoundary({ children }) {
-  const navigate = useNavigate();
+export default class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-  useEffect(() => {
-    const handleError = (error) => {
-      console.error('Page Error:', error);
-      navigate('/');
-    };
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
 
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleError);
+  componentDidCatch(error, errorInfo) {
+    console.error('Page Error:', error, errorInfo);
+  }
 
-    return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleError);
-    };
-  }, [navigate]);
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ 
+          padding: '20px', 
+          textAlign: 'center',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <h2>Something went wrong.</h2>
+          <button 
+            onClick={() => {
+              this.setState({ hasError: false });
+              window.location.href = '/';
+            }}
+            style={{
+              padding: '10px 20px',
+              marginTop: '20px',
+              borderRadius: '8px',
+              background: 'var(--primary, #7c5cff)',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            Return Home
+          </button>
+        </div>
+      );
+    }
+
+    }
+}
+  }
 
   return children;
 }

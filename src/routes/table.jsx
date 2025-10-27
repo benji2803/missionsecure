@@ -14,7 +14,7 @@ export const routes = [
     path: "/", 
     label: "Home",
     element: <Home />,
-    mobileProps: { touchAction: 'manipulation' }
+    exact: true
   },
   { 
     path: "/who-we-are", 
