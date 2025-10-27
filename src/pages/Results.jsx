@@ -1,6 +1,8 @@
 // src/pages/Results.jsx
 import { useEffect, useMemo } from "react";
 import { useLocation, useSearchParams, Link, useNavigate } from "react-router-dom";
+import EmailCapture from "../components/EmailCapture";
+import "../components/EmailCapture.css";
 
 /**
  * Results page:
@@ -115,8 +117,13 @@ export default function Results() {
         </div>
       )}
 
+      {/* Email Capture */}
+      {pct != null && (
+        <EmailCapture score={score} total={total} />
+      )}
+
       {/* Actions */}
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 12 }}>
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
         <button className="navlink" style={btn} onClick={() => window.print()}>
           Download Report PDF
         </button>

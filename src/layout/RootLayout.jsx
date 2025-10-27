@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Sidebar from "../ui/Sidebar.jsx";
+import BubbleNavigation from "../ui/BubbleNavigation.jsx";
 import "./layout.css";
 
 export default function RootLayout({ children }) {
@@ -47,7 +47,7 @@ export default function RootLayout({ children }) {
         <h1 className="brand">Mission Secure</h1>
       </header>
 
-      <Sidebar open={open} onClose={() => setOpen(false)} />
+      <BubbleNavigation open={open} onClose={() => setOpen(false)} />
 
       {/* When sidebar is open on desktop, push content; also remove top padding on Home */}
       <main

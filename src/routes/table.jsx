@@ -10,14 +10,46 @@ const Quiz = lazy(() => import("../pages/Quiz.jsx"));
 const Results = lazy(() => import("../pages/Results.jsx"));
 
 export const routes = [
-  { path: "/", label: "Home", element: <Home /> },
-  { path: "/who-we-are", label: "Who We Are", element: <TeamPage /> },
-  { path: "/resources", label: "Resources", element: <BeginnerGuidePage /> },
-  { path: "/news", label: "Latest Cyber News", element: <CyberNews /> },
-  { path: "/contact", label: "Contact Us", element: <ContactUs /> },
-     { path: "/quiz",     element: <Quiz /> }, // remove `label` to hide from sidebar
-     { path: "/results",                               element: <Results /> }, // no label = hidden
-
+  { 
+    path: "/", 
+    label: "Home",
+    element: <Home />,
+    mobileProps: { touchAction: 'manipulation' }
+  },
+  { 
+    path: "/who-we-are", 
+    label: "Who We Are", 
+    element: <TeamPage />,
+    mobileProps: { touchAction: 'manipulation' }
+  },
+  { 
+    path: "/resources", 
+    label: "Resources", 
+    element: <BeginnerGuidePage />,
+    mobileProps: { touchAction: 'manipulation' }
+  },
+  { 
+    path: "/news", 
+    label: "Latest Cyber News", 
+    element: <CyberNews />,
+    mobileProps: { touchAction: 'manipulation' }
+  },
+  { 
+    path: "/contact", 
+    label: "Contact Us", 
+    element: <ContactUs />,
+    mobileProps: { touchAction: 'manipulation' }
+  },
+  { 
+    path: "/quiz", 
+    element: <Quiz />,
+    mobileProps: { touchAction: 'manipulation' }
+  },
+  { 
+    path: "/results", 
+    element: <Results />,
+    mobileProps: { touchAction: 'manipulation' }
+  }
 ];
 
 export const notFound = {
