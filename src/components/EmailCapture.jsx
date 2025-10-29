@@ -15,27 +15,30 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 // Helper function to generate recommendations based on score
 function getRecommendations(percentage) {
   if (percentage >= 85) {
-    return `
-      • Maintain current security practices and stay updated
-      • Consider advanced security measures for further improvement
-      • Regular security awareness training for new employees
-      • Implement continuous monitoring and testing
-    `;
+    return `• Enhance existing security measures with advanced threat detection and response capabilities
+• Implement zero-trust architecture principles across your infrastructure
+• Conduct quarterly penetration testing and vulnerability assessments
+• Develop a comprehensive vendor security assessment program
+• Consider implementing a security orchestration and automated response (SOAR) platform
+• Maintain ISO 27001 certification and other relevant security standards
+• Establish a dedicated security operations center (SOC)`;
   } else if (percentage >= 70) {
-    return `
-      • Strengthen authentication with MFA across all systems
-      • Review and update security policies regularly
-      • Conduct regular security awareness training
-      • Implement comprehensive data backup solutions
-    `;
+    return `• Upgrade to modern multi-factor authentication across all systems
+• Implement comprehensive log monitoring and analysis
+• Establish regular vulnerability scanning and patching procedures
+• Develop and test business continuity and disaster recovery plans
+• Enhance data encryption for both data at rest and in transit
+• Conduct regular phishing simulations and security awareness training
+• Review and strengthen access control policies`;
   } else {
-    return `
-      • Implement basic security measures immediately
-      • Set up multi-factor authentication
-      • Create incident response plans
-      • Establish regular security training programs
-      • Review and upgrade access controls
-    `;
+    return `• Implement multi-factor authentication immediately for all user accounts
+• Create and document basic security policies and procedures
+• Set up regular automated backups with encryption
+• Establish baseline security monitoring and alerting
+• Train employees on basic security awareness and best practices
+• Deploy endpoint protection on all devices
+• Create an incident response plan
+• Implement regular security patches and updates schedule`;
   }
 }
 
@@ -67,20 +70,25 @@ export default function EmailCapture({ score, total }) {
 
       const templateParams = {
         to_email: email,
-        company_name: companyName,
+        company_name: companyName || 'Not Specified',
         score: score,
         total: total,
         percentage: percentage,
         verdict: verdict,
-        date: new Date().toLocaleDateString(),
-        risk_level: riskLevel,
+        date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+        risk_level: riskLevel.toLowerCase(),
         implementation_window: implementationWindow,
         investment_range: investmentRange,
         ranking: ranking,
         recommendations: getRecommendations(percentage),
-        to_name: companyName
+        to_name: companyName || 'User'
       };
 
+      console.log('Sending email with params:', templateParams); // Debug log
       const response = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,

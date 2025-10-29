@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cybersecurity Assessment Results</title>
+    <style>
+        :root {
+            --primary: #7c5cff;
+            --primary-2: #6a8dff;
+            --bg: #0b1020;
+            --surface: #0f172a;
+            --text: #e5e7eb;
+            --text-muted: #9ca3af;
+            --border: rgba(255,255,255,.08);
+        }
+
+        body { 
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header { 
+            background: linear-gradient(180deg, var(--primary), color-mix(in oklab, var(--primary) 85%, black));
+            color: white;
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            margin: 0 0 12px 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .header p {
+            margin: 8px 0;
+            opacity: 0.9;
+        }
+
+        .score { 
+            font-size: 32px;
+            font-weight: 700;
+            margin: 24px 0;
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .section { 
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 16px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .section h2 {
+            margin: 0 0 16px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-2);
+        }
+
+        .risk-high { color: #ef4444; }
+        .risk-moderate { color: #eab308; }
+        .risk-low { color: #22c55e; }
+
+        .recommendations { 
+            background: color-mix(in oklab, var(--primary) 8%, transparent);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid color-mix(in oklab, var(--primary) 15%, transparent);
+            white-space: pre-line;
+            margin-top: 12px;
+        }
+
+        ul, ol {
+            margin: 0;
+            padding-left: 24px;
+        }
+
+        li {
+            margin: 8px 0;
+            color: var(--text);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .stat-item {
+            background: color-mix(in oklab, var(--surface) 80%, transparent);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: color-mix(in oklab, var(--text) 10%, transparent);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-2));
+            width: {{percentage}}%;
+            box-shadow: 0 0 12px rgba(124, 92, 255, 0.3);
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Cybersecurity Assessment Results</h1>
+        <p>{{company_name}}</p>
+        <p>{{date}}</p>
+    </div>
+
+    <div class="score">
+        Score: {{percentage}}%
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div style="font-size: 16px; margin-top: 12px; color: var(--text-muted);">
+            {{score}}/{{total}} points • {{verdict}}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Executive Summary</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Risk Level</div>
+                <div class="stat-value risk-{{risk_level}}">{{risk_level}}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Implementation Window</div>
+                <div class="stat-value">{{implementation_window}}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Investment Range</div>
+                <div class="stat-value">{{investment_range}}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Industry Ranking</div>
+                <div class="stat-value">{{ranking}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Key Recommendations</h2>
+        <div class="recommendations">
+            {{recommendations}}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Next Steps</h2>
+        <ol>
+            <li>Review the detailed recommendations above</li>
+            <li>Create an implementation plan within the suggested timeframe</li>
+            <li>Allocate budget according to the investment range</li>
+            <li>Consider professional guidance for critical improvements</li>
+        </ol>
+    </div>
+
+    <div class="footer">
+        This assessment was conducted through Mission Secure's Cybersecurity Assessment Tool.
+        For questions or professional assistance, please contact our team.
+    </div>
+</body>
+</html>
